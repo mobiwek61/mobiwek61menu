@@ -1,0 +1,25 @@
+import { React, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
+// import './index.css';
+import MobiWekDemo from './MobiWekDemo';
+//import reportWebVitals from './reportWebVitals';
+const root = ReactDOM.createRoot(document.getElementById('rootDivA'));
+//console.log('this is src/index.js code run by default. It gets run by the \"npx create-react-app my-app\" thing')
+
+/* This is how the default (indecipherable) setup of webpack server sets up the entry point to the app:
+   node_modules\react-scripts\config\paths.js
+   module.exports = { ...  appIndexJs: resolveModule(resolveApp, 'src/index'), ... */
+
+console.log('this is src/index.js in the mobiwekmenu project root, not webpack_babel')
+root.render(<>
+  {/* <React.StrictMode> to turn of double-render problem. something about debugging */}
+    {/* { console.log('root.render from index.js') } */}
+    <MobiWekDemo />
+  {/* </React.StrictMode> */}
+  </>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+//reportWebVitals();

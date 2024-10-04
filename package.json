@@ -1,0 +1,53 @@
+{
+  "VERSION ALERT": "react-zoom-pan-pinch is not latest version because of pinch mobile zoom problem",
+  "VERSION ALERT2": "!!DO NOT USE CARAT ie: '^3.3.0' !! or else it will auto-update to unwanted version and not tell you",
+  "//a": "This package.json is for running webpack server and also to build bundle*.js and provide yargs package to publish util for example",
+  "//b": "It installs packages used by the project and also installs webpack command line and babel to do above",
+  "//c": "It is NOT FOR PRODUCTION BUNDLE because production doesn't use webpack & babel.",
+  "//d": "webpack & babel are command-line utilities used for development only.",
+  "//e": "The node_modules here are used by stuff in subfolder webpack_babel. It doesnt have a node_modules",
+  "//f": "and package.json because > 1 node_modules messes up React (error: more than 1 copy of react is running...)",
+  "name": "mobiwek61menu_dev",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "qrcode": "^1.5.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.2.1",
+    "react-router-dom": "^6.25.1",
+    "react-scripts": "5.0.1",
+    "react-zoom-pan-pinch": "3.6.0",
+    "systeminformation": "^5.23.2",
+    "web-vitals": "^2.1.4",
+    "webpack-cli": "^5.1.4",
+    "yargs": "^17.7.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

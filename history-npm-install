@@ -1,0 +1,20 @@
+
+echo zzzzzzzzzzzzzzzzzzzzzzz
+echo now at initial create-react-app
+npm update
+npm i react-router-dom
+npm i react-icons
+npm i react-zoom-pan-pinch
+npm i qrcode
+npm i webpack-cli
+
+echo NOW FIX RZPP BUG CONCERTING MOBILE PINCH ZOOM:
+echo REPLACE LINE
+echo "react-zoom-pan-pinch": "^3.6.1",
+echo WITH
+echo "react-zoom-pan-pinch": "3.6.0",
+echo WITHOUT THE CARAT "^"
+echo WITHOUT THE CARAT "^"
+echo now delete node_modules and package-lock.json and "npm install" to read package.json and build node_modules again
+
+npm start

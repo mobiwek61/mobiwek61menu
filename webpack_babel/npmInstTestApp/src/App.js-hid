@@ -1,0 +1,13 @@
+import './mobiwekMenu.css';
+import { MobiWekDemo } from 'mobiwek61menu';
+
+function App() {
+  return (
+    <div className='blockyMsg' >
+          Edit <code>src/App.js</code> and save to reload.
+          <MobiWekDemo/>
+     </div>
+  );
+}
+
+export default App;

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+RESET='\e[0m';REDBOLD='\e[1;31m';
+node ../node_modules/webpack/bin/webpack build -c ./webpack.config_build.js 
+# adding -e to echo lets it interpret colors
+echo -e $REDBOLD listing of publish folder bundle: $RESET
+ls -l ../../publicProj/npmjs_com/bundle-publish-public/bund*.js
+echo date is: `date`
+
+# from package.json script -> node ../node_modules/webpack/bin/webpack build -c ./webpack.config_build.js && ls -l ../../bundle-publish-public/bund*.js

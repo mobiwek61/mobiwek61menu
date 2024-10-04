@@ -1,0 +1,257 @@
+
+
+/* CSS for MobiWekMenu. Determines appearance and also alignments to build the cascading menu.
+   This css file is divided into 2 sections:
+   1. things it's ok to routinely edit which change appearance etc.
+   2. things it's not ok to routinely edit 
+      - marked "DONT EDIT" in comments
+      - these change functionality, spacing, borders etc.
+      - if edited, you probably want to do a full regression test. Things can get brittle fast.
+   3. things to never edit, usually css variables set by code, so any change will have no effect.
+      - marked "NEVER EDIT" in comments.
+
+   To see what something does 
+      - in VSCode do global search on it shift-cntrl-F
+      - in browser debugger element tab, search for the string.
+*/
+
+/* LOOK! These are "Custom properties" (sometimes referred to as CSS variables or cascading variables)
+   How to retrieve value in javascript code ->   
+   getComputedStyle(document.body).getPropertyValue('--mwmVMINcutoff')
+   How to set value ->
+   labelForTheBranch.style.setProperty('--mwmBtnAfterShape', 'var(--unicodeHollowRightTri)');
+*/
+   :root { 
+    --fontSizeA: 6.0vmin;
+    --mwmBtnAfterColor: #00ff00; /* arrow thing after chosen submenu label */
+    --mwmBtnAfterShape:var(--unicodeHollowRightTri);
+    /* reference for unicode symbols: https://en.wikipedia.org/wiki/List_of_Unicode_characters */
+    --unicodeHollowRightTri:'\25B7';
+    --unicodeSolidRightTri:'\25B6';
+    --unicodeRightArrow7:'\01F81E';
+    /* set to adjust minimum of width or height to be considered desktop, not mobile */
+    --mwmVMINcutoff:450; 
+    /* size multiplier for icons, radius etc depending on minimum of screen height
+       and width being smaller than --mwmVMINcutoff  */
+    --mwmScalerDesktop:0.5; 
+    --mwmScalerMobile:1.0;
+    --mwmMenuFontSize:-1; /* NEVER EDIT *//* set by code when user selects font size + or - , and mwmfont in url */
+    --mwmScaledRadius:-1px; /* NEVER EDIT *//* radius based on mobile or desktop etc. Calculated in code.. */
+    --mwmMenuScrnScaler:-1; /* NEVER EDIT *//* scaling factor for screensize is setup in code */
+  } 
+  
+  .blockyMsg {
+    font-size:18px; font-weight: 700; color: #000000; 
+    background-color:#d3faf8; font-family: 'Noto Sans', sans-serif; 
+  }
+  .textShadowA {
+    /* offset-x | offset-y | blur-radius | color */
+     /* text-shadow: 3px 3px 12px #ffffff, -3px -3px 12px #ffffff; */
+     color:white;
+     text-shadow: 1px 1px 2px black;
+  }
+
+  /* font:'700 Comic Sans MS' */
+  #menuTitle {
+    /* use !important to override value set in javascript code inline css block */
+    /* margin-left:20vw !important;  */
+    font-weight: 700;
+    color: #0800ff;
+    font-family: 'Noto Sans', sans-serif;
+    text-shadow: 3px 3px 6px #ffffff, 3px 0px 6px #ffffff;
+    /* offset-x | offset-y | blur-radius | color */
+    /* background-color: rgba(204, 228, 236, 0.5); transluscent */
+  }
+  
+  .fontPlusMinusButtonsA { 
+      font-weight:700; color:black; 
+      /* note: fontSize set by java code. */
+      font-family: Verdana, sans-serif; 
+      font-weight: 800; 
+      filter:  drop-shadow(#ffffff 4px 4px 5px) drop-shadow(#ffffff -4px -4px 5px); 
+      vertical-align:baseline; /* DONT EDIT */
+      user-select: none; /* DONT EDIT */
+  }
+  
+  /* to make glowing hamburger effect for menu icon. Note: last 2 digits is opacity. */
+  :root { --glowingCloudColor:#7ad78662;
+          --glowingCloudShadow:#7ad786e8;}
+
+  /* NOTE: in react couldnt get filter to work inline */
+  .glowingBackdrop {
+    fill:var(--glowingCloudColor);
+    filter: drop-shadow(var(--glowingCloudShadow) 5px 5px 5px) drop-shadow(var(--glowingCloudShadow) -5px -5px 5px);
+  }
+  #HamburgerIcon {
+    color:black;
+    border-radius:5px;
+    margin:2.0vmin;
+  }  
+  /*  calc needs px it cant deal with actual numbers...  ->          margin: calc(5px + 20px); */
+  
+  /* for the purpose of building the cascading menus and leaf elements I use
+    use "mobiwekrole" attributes instead of css classes. */
+  [mobiwekrole="BRANCH_BUTTON"], [mobiwekrole="LEAF"] { 
+    white-space: nowrap; /* DONT EDIT */
+    font-size: var(--mwmMenuFontSize); /* DONT EDIT */
+  }
+
+  .chosenMenuLeaf {
+      font-style: italic;
+      color: #00fff2 !important;
+      background-color: #ab001459 !important
+  }
+
+  [mobiwekrole="BRANCH"], [mobiwekrole="LEAF"]
+  {
+    padding-left: 6px; /* DONT EDIT */
+    border-bottom: 1px solid #3c74b8;
+    border-top: 1px solid #eeeeee; 
+    font-weight: 700;
+    color: #ffff00;
+    font-family: 'Noto Sans', sans-serif; 
+    text-shadow: 3px 3px 6px black, 3px -0px 6px black ;
+    background-color: rgba(204, 228, 236, 0.5); /* transluscent */
+    backdrop-filter: blur(5px);
+    position:relative; /* DONT EDIT */
+  }
+
+  /* this is a BRANCH_SUBMENU 
+    -set position:absolute [relative to parent] and set "left" offset
+      to width of parent [100%]. This makes it horizontally offset along right edge of parent.
+      The "top" offset makes it align with parent. 
+      Note: -parent is the button to bring submenu.
+            -parent must also have relative position or else absolute is relative to the viewport.
+            -display "none" takes no space preventing a empty gap.
+  */
+  [mobiwekrole="BRANCH_SUBMENU"] {
+    position:absolute; /* DONT EDIT */
+    left:100%; /* DONT EDIT */ /* shoves it right 100% width of parent so it lines up as cascading submenu */
+    top:0px; /* DONT EDIT */ /* avoid pushing down by one menu item */
+    display: none; /* DONT EDIT */ /* its a nested menu, so initially hidden */
+  }
+
+  /* puts an arrow after the button   */
+  [mobiwekrole="BRANCH_BUTTON"]::after {
+    /* for a good reference to see HTML symbols refer to: 
+      https://www.htmlsymbols.xyz/arrow-symbols  https://www.htmlsymbols.xyz/unicode/U+25B6 */
+    content: var(--mwmBtnAfterShape); /* DONT EDIT */ 
+    color: var(--mwmBtnAfterColor); /* DONT EDIT */
+    margin-left: 6px; /* DONT EDIT */
+  }
+
+  /* toggling this makes it dissappear without taking up space
+    ie: clickedList.querySelector('[mobiwekrole="SUBMENU"]').classList.toggle('display_block_not_none'); */
+  .dispBlockClass { display: inline; } /* DONT EDIT */
+
+  /* prevents a wierd 1px wide scrollbar from appearing */
+  #mobiWekMenuTreeScrollingRoot::-webkit-scrollbar{ display: none; } /* DONT EDIT */
+
+
+/* START ANIMATION_O=O=O_ANIMATION_O=O=O_ANIMATION_O=O=O_ANIMATION_O=O=O_ANIMATION_O=O=O_ANIMATION_O=O=O*/
+  /* CSS ANIMATION FOR MENU SLIDE-IN 
+   this section is for css animation to slide menu in/out and other things.
+   Javascript in this project is also coded to do this without css file but its commented out
+      so that npm package users can customize it, since they are not working with
+      source code. It is left there as an example; it offers
+      the advantage that variables may be used to set animation parameters. 
+   ref: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animations/Using_CSS_animations
+        https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function
+   */
+   @keyframes slideInRight_kf { /* menu appears to slide in from left to right */
+    from { transform: translateX(-259px); } to { transform: translateX(0px); }
+  }
+
+  .animateSlideFromLeft { 
+    /* border: 8px dotted green;  */ /* leave for debugging */
+    /* TO SETUP BEZIER VISIT https://cubic-bezier.com/#.67,1.52,1,1.35 */
+    /* bezier looks good on pc but bad and jerky on phones */
+    /* shorthand notation....  animation: 500ms slideInRight_kf cubic-bezier(.67,1.52,1,1.35);  */
+    /* shorthand notation....  animation: 150ms slideInRight_kf steps(3, end); */
+    /* longhand notation ...: */
+    animation-name: slideInRight_kf; 
+    animation-duration: 100ms; 
+    /* steps looks jerky but phones handle it better than bezier 
+      ref: https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function */
+    animation-timing-function: steps(3, jump-none); 
+    /* animation-timing-function: cubic-bezier(.67,1.52,1,1.35); */
+    animation-iteration-count: 1; 
+  }
+
+  @keyframes slideNhide_kf { 
+    from {transform: translateX(0px);} to {transform: translateX(-259px);}  
+  }
+  /* TO GET BEZIER VISIT https://cubic-bezier.com/#0,.96,1,1.11 */
+  .animateSlideNhide { 
+    /* border: 8px dotted green; */
+    /* below is shorthand notation; see above for longhand which is easier to read */
+    /* animation: 150ms slideNhide_kf steps(3, end); */
+    animation: 500ms slideNhide_kf steps(9, end);
+  }
+
+  @keyframes narrowNmoveUpAndAway_kf { 
+    from {transform: translateY(0px) scaleX(100%) scaleY(100%) ;} to {transform: translateY(-50vh) scaleX(0%) scaleY(0%) ;}  
+  }
+  .animateHideDialogA { 
+    animation: 250ms narrowNmoveUpAndAway_kf steps(5, end);
+  }
+  @keyframes spinAway_kf { 
+    from {transform: translateY(0px) scaleX(100%) scaleY(100%) rotateZ(0deg) ;} 
+    to {transform: translateY(-50vh) scaleX(0%) scaleY(0%) rotateZ(360deg);}  
+  }
+  .animateHideDialogB { 
+    animation: 500ms spinAway_kf steps(10, end);
+  }
+/* END ANIMATION_O=O=O_ANIMATION_O=O=O_ANIMATION_O=O=O_ANIMATION_O=O=O_ANIMATION_O=O=O_ANIMATION_O=O=O*/
+
+/* START POPUP_O=O=O_POPUP_O=O=O_POPUP_O=O=O_POPUP_O=O=O_POPUP_O=O=O_POPUP_O=O=O_POPUP_O=O=O*/
+#divPopupContentRoot {
+    margin-left: 7vw; 
+    width: 80vw; 
+    /* margin-top: 20vh;  */
+    background-color: #d9f1ef;
+    border-radius: var(--mwmScaledRadius);
+    border: 2px solid black; padding: 2vw;
+}
+.popup_textblock {
+  font-weight: 700; color: #2732cd; font-family: 'Noto Sans', sans-serif; 
+}
+.toast_divblock {
+  /* position: absolute; */
+  background: #eeeeee;
+  width: fit-content;
+  height: fit-content;
+  border: 4px solid black;
+  border-radius: 5vmin;
+  /* transform: translate(8vmin, 50vmin); */
+  /* top:20%; left:10%; */
+  padding:4vmin;
+}
+.toast_textblock {
+  font-weight: 700; color: #09863b; font-family: 'Noto Sans', sans-serif; 
+  /* transform: rotate(-40deg) translate(2vmin, 7vmin); */
+}
+.buttonA {
+  font-size: calc(var(--mwmMenuFontSize) * .8); /* even though var is '4.5px', the math works correctly */
+  height: fit-content; font-weight: 700;  color: #ff0000; font-family: 'Noto Sans', sans-serif; 
+  margin: 4px; padding: 4px; border-radius: 4px;  border: 2px solid black;  width: fit-content;
+}
+.testRectangle {
+  width:400px; height: 200px; background-color:#ff0000; margin:20px; border: 2px solid black;
+  z-index: 500; position: relative;
+}
+/* END POPUP_O=O=O_POPUP_O=O=O_POPUP_O=O=O_POPUP_O=O=O_POPUP_O=O=O_POPUP_O=O=O_POPUP_O=O=O*/
+
+
+/* example how to flip arrow to point down...
+.BUTTONA::after {
+  -ms-transform: translateY(5px) rotate(90deg); / * IE 9 * /
+  -webkit-transform: translateY(5px) rotate(90deg); / * Safari * /
+  transform: translateY(5px) rotate(90deg);
+  display: inline-block;
+  margin-left: 6px; padding-top: 5px;
+}
+*/
+/* media query example:
+   @media only screen and (min-width: 800px) { 
+    [mobiwekrole="BRANCH_BUTTON"], [mobiwekrole="LEAF"] { */
