@@ -42,10 +42,13 @@ function ReactAppForDevelopment() {
   // get "css variable" from css file using getComputedStyle().  
   var cssVariableFromCSSfile_fontsizeA = 
         getComputedStyle(document.body).getPropertyValue('--fontSizeA')
-  // console.log('getComputedStyle fontSizeA ' + cssVariableFromCSSfile_fontsizeA)
+  console.log('mon 9th b')
   return (
     <BrowserRouter>
       <Routes>
+          {/* on github.io request for image gets caught by router, so put route here. dont know why its just for image loading jpeg? 
+              <Route path='/jpeg/farmersmkt/jalepenos.jpg' element={<img src='/jpeg/farmersmkt/jalepenos.jpg' />} 
+          />*/}
           <Route path='/' // this route always taken. Serves as menu frame for content
               //       ^ all routes hit this one because its /
               element=

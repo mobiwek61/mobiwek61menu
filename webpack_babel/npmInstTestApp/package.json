@@ -6,7 +6,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "mobiwek61menu": "^0.0.2",
+    "mobiwek61menu": "file:../../../publicProj/npmjs_com/bundle-publish-public",
     "mobiwek61test_b": "file:../../../publicProj/npmjs_com/bundle-publish-public",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

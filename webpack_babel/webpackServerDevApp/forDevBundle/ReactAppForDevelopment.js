@@ -46,6 +46,9 @@ function ReactAppForDevelopment() {
   return (
     <BrowserRouter>
       <Routes>
+          {/* on github.io request for image gets caught by router, so put route here. dont know why its just for image loading jpeg? */}
+          <Route path='/jpeg/imageLoading' element={<img src='/jpeg/farmersmkt/jalepenos.jpg' />} 
+          />
           <Route path='/' // this route always taken. Serves as menu frame for content
               //       ^ all routes hit this one because its /
               element=

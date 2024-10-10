@@ -12,7 +12,8 @@ import { MobiWekPageWrapper } from '../mobiwekView/MobiWekPageWrapper'
  */
 function MediaPictureWithInfo(mwmkeyLeaf) {
       const preloadImage = new Image();
-      preloadImage.src = '/jpeg/farmersmkt/jalepenos.jpg' // shows while loading
+      console.log('MediaPictureWithInfo mon 9th ')
+      preloadImage.src = '/jpeg/imgLoading.jpg' // shows while loading
       var scrnIsPortrait = (window.innerHeight - window.innerWidth > 0) ? true : false;
       const screenScalerFactor = parseInt(getComputedStyle(document.body).getPropertyValue('--mwmMenuScrnScaler')) 
       /**
