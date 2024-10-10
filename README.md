@@ -40,9 +40,9 @@ IN HTML:
 IN JAVASCRIPT (requires HTML script tag loading javascript file)  
 ```import { MobiWekDemo, React, ReactDOM } from '../../src/PackageTreeEntry';```  
 ### About create-react-app my-app
-  - when a project is created by ```npx create-react-app my-app``` a weird and confusing thing happens: the  
+  - when a project is created by ```npx create-react-app my-app``` the  
     ```<script src="/bundle_webpackServer.js"></script>``` tag in index.html is **NOT THERE**.  
-  This is because the **webpack.config.js** buried in **node_modules/react-scripts** calls plugin "**HtmlWebpackPlugin**" which automagically inserts this tag into the html file before running. This confuses me. Instead, you can **add this tag in the code**.  
+  This is because the **webpack.config.js**, setup in **node_modules/react-scripts** calls plugin "**HtmlWebpackPlugin**" which automagically inserts this tag into the html file before running. 
     - The demo project in **webpack_babel/webpackServerDevApp** uses custom ```webpack.config*.js``` files without the "**HtmlWebpackPlugin**" plugin, so HTML in the demo requires this script tag. 
     - The project in **Folder webpack_babel/npmInstTestApp** uses this default configuration to keep it a simple demo and easily replicated. 
 ### TODO

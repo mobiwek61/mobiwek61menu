@@ -23,13 +23,6 @@
 - run script mobiwekMenu/webpack_babel/buildProductionBundle   
 [assumes git-bash has been installed if on a pc]
 
-### SNAFU "HtmlWebpackPlugin"
-  - beginning users need not know about this. Just run as usual.  
-  - when a project is created by ```npx create-react-app my-app``` a weird and confusing thing happens: the  
-    ```<script src="/bundle_webpackServer.js"></script>``` tag in index.html is **NOT THERE**.  
-  This is because the **webpack.config.js** buried in **node_modules/react-scripts** calls plugin "**HtmlWebpackPlugin**" which automagically inserts this tag into the html file before running. This is not documented anywhere and is very **confusing** to me. Instead, you can **add this tag in the code**.   
-  - in the case of this test app/demo, it is left as it was created by the utility.
-
 ### Install and run commands for this project
 ```
     # to remove old import and re-import locally:
