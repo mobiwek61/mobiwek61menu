@@ -1,6 +1,3 @@
-
-
-
 import React from 'react';
          
 /**
@@ -73,13 +70,7 @@ const mobiwekMenuJSONexample_1 =
     { REV:'3 Aug 2024 b', 
       // schema wont work here because not a JSON file..     "$schema": "./TestJsonASchema.json", // visual studio code way of custom schema
       DD_MENU_HEAD:[
-      { BRANCH:"Drinks", mwmkey:"beverages", items:[
-          { LEAF:"Mojito", mwmkey: "mojito", mwmtype:"mwtypNull" },  
-          { BRANCH:"Hot Drink", mwmkey:"hotDrink", items:[
-              { LEAF:"Tea", mwmkey: "tea", mwmtype:"mwtypNull" },      
-              { LEAF:"Coffee", mwmkey: "coffee", mwmtype:"mwtypNull" },
-          ]},
-      ]},
+      { LEAF:"About", mwmkey: "about_app", mwmtype:"mwtypNull" },
       { BRANCH:"American History", mwmkey:"amhistory", items: [
         { LEAF:"Abraham Lincoln Photo", mwmkey: "aLincoln1",
           mwmtype: "image", 
@@ -161,6 +152,13 @@ const mobiwekMenuJSONexample_1 =
           ]},
         ]},
       ]}, 
+      { BRANCH:"Drinks", mwmkey:"beverages", items:[
+        { LEAF:"Mojito", mwmkey: "mojito", mwmtype:"mwtypNull" },  
+        { BRANCH:"Hot Drink", mwmkey:"hotDrink", items:[
+            { LEAF:"Tea", mwmkey: "tea", mwmtype:"mwtypNull" },      
+            { LEAF:"Coffee", mwmkey: "coffee", mwmtype:"mwtypNull" },
+        ]},
+      ]},
       // SAVE BELOW EXAMPLE to verify React routing (see matching entry in code)
       { BRANCH:<>tools for my<br/>{space4}workshop</>, mwmkey:"workshopTools", items: [
         { LEAF:"hone", mwmkey: "hone", mwmtype:"mwtypNull" },

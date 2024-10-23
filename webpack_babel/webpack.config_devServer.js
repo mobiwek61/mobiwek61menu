@@ -165,8 +165,8 @@ module.exports =
     // open: false, //true, // Tells dev-server to open the browser
     // below opens chrome to specific url
     open: { target: ['/x15/x15image?mwmfont=24.3px'], 
-            // app: { name: 'msedge' // microsoft edge
-            app: { name: 'chrome'
+            app: { name: 'msedge' // microsoft edge
+            // app: { name: 'chrome'
             // infinite tabs!!   , arguments: ' --auto-open-devtools-for-tabs' 
           }},
     client: {

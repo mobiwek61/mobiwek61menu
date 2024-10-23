@@ -1,3 +1,6 @@
+
+
+
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, Outlet, useParams,  useNavigate, useLocation } from "react-router-dom";
 import { mobiwekMenuJSONexample_1 } from  "./DevMenuSpec";
@@ -39,16 +42,13 @@ function ReactAppForDevelopment() {
   // get "css variable" from css file using getComputedStyle().  
   var cssVariableFromCSSfile_fontsizeA = 
         getComputedStyle(document.body).getPropertyValue('--fontSizeA')
-  console.log('mon 9th b')
-  {/* the code below has parts which looks like HTML is actually JSX. One big difference is when css
-      style is specified, things like margin-bottom become marginBottom and the value
-      appears in quotes. Also note the double brackets around css. */}
+  // console.log('getComputedStyle fontSizeA ' + cssVariableFromCSSfile_fontsizeA)
   return (
     <BrowserRouter>
       <Routes>
-          {/* on github.io request for image gets caught by router, so put route here. dont know why its just for image loading jpeg? 
-              <Route path='/jpeg/farmersmkt/jalepenos.jpg' element={<img src='/jpeg/farmersmkt/jalepenos.jpg' />} 
-          />*/}
+          {/* on github.io request for image gets caught by router, so put route here. dont know why its just for image loading jpeg? */}
+          <Route path='/jpeg/imageLoading' element={<img src='/jpeg/farmersmkt/jalepenos.jpg' />} 
+          />
           <Route path='/' // this route always taken. Serves as menu frame for content
               //       ^ all routes hit this one because its /
               element=
@@ -88,12 +88,6 @@ function ReactAppForDevelopment() {
          */
         element={<HandleByFullPathToFindMenuEntry mwmenuRoot={theMobiwekMenu} />} 
     />
-
-    {/* MobiWekPageWrapper( Do_about_app() ) wraps the React component "Do_about_app" inside a zoomable, 
-        scrollable thing with a narrow page-refresh band at the top of the screen  */}
-    {/* <Route path='about_app' element={MobiWekPageWrapper( Do_about_app() )} /> */}
-    <Route path='about_app' element={ < Do_about_app /> } />
-
     <Route path='coffee' element={<div style={{ marginTop:'25vh'}}>Coffee route here</div>} />
     {/* REST-style: any route staring with beverages followed by a single path */}
     <Route path='beverages'>
@@ -176,7 +170,6 @@ function ReactAppForDevelopment() {
           appTitle="Doughnut-DEV"
           mobiwekMenuJSON_A={ props.mwmenuRoot }  
           menuCallBackPtr={ ReactAppForDevelopmentMenuCallbackFn }  
-          overflowCSS="hidden" //"scroll" // leads to div "divPageContentInFrameHelper" having this property
           {...props}     />
       </>)
     /**
@@ -193,33 +186,6 @@ function ReactAppForDevelopment() {
           if (mwmkeyFullPath === '/Home') mwmkeyFullPath = '/'
           navigate(mwmkeyFullPath + fontSearchUrlParam); 
     }
-  }
-  function Do_about_app(props) {
-    useEffect(() => { 
-      // The MobiWekPageWrapper component which wraps this component does CSS overflow "none" to accommodate
-      // zoomable scrollable images. This "page" is just html, so add scrolling as follows:
-      document.querySelector("#divPageContentInFrameHelper").style.overflow = "scroll";
-    }, []); 
-    
-    return(<div style={{ margin:'10vh 5px 5px 5px', padding:'5px',border:'3px solid #cccccc'}}>
-        <div style={{ marginBottom:'20px', color:'#ffff00'}}>This is a demo of mobiwek61menu. </div>
-        mobiwek61menu is an <b>npm package</b> which implements a floating overlay menu. <br/>
-        It is an experimental project to:
-        <ul>
-          <li>fit a large cascading menu onto a mobile screen</li>
-          <li>provide variable font size with one click</li>
-          <li>present user with a simple interface</li>
-          <li>present menu while minimally obscuring content, which may be artwork.</li>
-          <li>display zoomable images of historically significant handwriting to assist readability</li>
-          <li>present info button to display information and a qr code to that menu location</li>
-        </ul>
-        <div style={{ marginBottom:'20px', color:'#ffff00'}}>Related resources</div>
-        <ul>
-          <li>npm package location: <a style={{color:'#32ffbc'}} href='https://www.npmjs.com/package/mobiwek61menu'><>https://www.npmjs.com/package/mobiwek61menu</></a></li>
-          <li>provide variable font size with one click</li>
-          <li>another line</li><li>another line</li><li>another line</li><li>another line</li><li>another line</li>
-        </ul>
-    </div>)
   }
   
   /** depending of parameters, show specific webpage. If no match, decide if image is shown */

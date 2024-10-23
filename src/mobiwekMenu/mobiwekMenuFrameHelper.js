@@ -69,8 +69,10 @@ function MobiWekMenuFrame(propsMenuFrame) {
                       document.querySelector('[mwmCurrent="mwmchosen"'), 0)} }  
               />
           </div>
-          {/* below is page content to be displayed */}
-          <div id='divPageContentInFrameHelper' style={{ gridArea:'1 / 1 / 2 / 2', zIndex:'0'}} >
+          {/* below is page content to be displayed. Some pages get the zoom/pan wrapper and some
+              get a plain display; give these CSS overflow:scroll  */}
+          <div id='divPageContentInFrameHelper' 
+              style={{ gridArea:'1 / 1 / 2 / 2', zIndex:'0', overflow: propsMenuFrame.overflowCSS }} >
               { propsMenuFrame.pageContent }
           </div>
       </div>)
