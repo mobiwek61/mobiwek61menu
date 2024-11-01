@@ -116,45 +116,66 @@ import { React, Fragment } from 'react';
     });
   }
 
+  /** scrolls screen so chosenDomNode is in a nice place on the screen. Does it by recursing up the tree
+   *  and summing widths and heights of nodes along the way  */
   function scrollVandHToShowChosenSubmenu(chosenDomNode, extraWidth) {
-      /* mwmCurrent gets established when page loads and document.location is examined to
-         determine active node. It then does a .... .setAttribute('mwmCurrent', "mwmchosen")
-         to mark the DOM node. Now look for it and scroll out to it. */
       if (chosenDomNode === null) return;
+      console.log("scrollVandHToShowChosenSubmenu")
       var runner = chosenDomNode;
-      var amtToScrollX = runner.clientWidth + extraWidth; // include the leaf node width to start with
-      var amtToScrollY = 0; // if not initialized get NaN like the tv show
-      var tier1Node;
+      var XscrollTotal = runner.clientWidth + extraWidth; // include the leaf node width to start with
+      var YscrollTotal = 0; // if not initialized get NaN like the tv show
+      
       const menuHeadNode = document.querySelector('[mobiwekrole="headOfMenuTreeWithTableRowDisplay"]');
+      
+      // CALCULATE X OFFSET FOR SCROLLING 
       do {
-          if (runner.attributes.mobiwekrole) {
-              if (runner.attributes.mobiwekrole.textContent === 'BRANCH') // dont add width of nested nodes
-                  amtToScrollX += runner.clientWidth; // scroll by width of ancestor
-              // console.log(runner.attributes.mobiwekrole.textContent)
-          } 
-          tier1Node = runner
+          if (runner.attributes.mobiwekrole.textContent === 'BRANCH') // only BRANCH pushes node to the right
+              XscrollTotal += runner.clientWidth; 
           runner = runner.parentElement
       } while (runner !== menuHeadNode)
       var scrollingFrameOfMenu = document.querySelector('#mobiWekMenuTreeScrollingRoot')
-      // console.log('gggggggg')
-      if ((amtToScrollX - scrollingFrameOfMenu.clientWidth) > 0) {
-        amtToScrollX = amtToScrollX - scrollingFrameOfMenu.clientWidth;
-      } else { amtToScrollX = 0; }
-      /* tier1Node is the leftmost ancestor. Now figure out its Y offset for scrolling */
-      menuHeadNode.childNodes.forEach(leftDiv =>  { 
-          if (leftDiv === tier1Node) tier1Node = null; // reached the node, so stop loop
-          if (tier1Node !== null) {
-              amtToScrollY += leftDiv.clientHeight; // console.log('bbv ' + leftDiv.outerHTML) 
-          } })
-      if ((amtToScrollY - scrollingFrameOfMenu.clientHeight * .75) > 0) {
+      // if scroll amount is narrow than window, do nothing
+      if ((XscrollTotal - scrollingFrameOfMenu.clientWidth) > 0) {
+        XscrollTotal = XscrollTotal - scrollingFrameOfMenu.clientWidth;
+      } else { XscrollTotal = 0; }
+      
+      // SHIFT Y OFFSET SO ITEM IS NOT SCRUNCHED AGAINST BOTTOM EDGE
+      YscrollTotal = addHeightsRecurse(chosenDomNode, 0, menuHeadNode);
+
+      if ((YscrollTotal - scrollingFrameOfMenu.clientHeight * .75) > 0) {
         // this puts chosen menu item at bottom edge
-        amtToScrollY = amtToScrollY - scrollingFrameOfMenu.clientHeight; 
+        YscrollTotal = YscrollTotal - scrollingFrameOfMenu.clientHeight; 
         // not lift it up so it's fully visible. Mobile landscape node needs more offset....
-        amtToScrollY += scrollingFrameOfMenu.clientHeight * .55; 
+        YscrollTotal += scrollingFrameOfMenu.clientHeight * .55; 
       } else { 
-        amtToScrollY = 0; 
+        YscrollTotal = 0; 
       }
-      scrollingFrameOfMenu.scroll({ left: amtToScrollX, top: amtToScrollY, behavior: 'smooth' })
+
+      scrollingFrameOfMenu.scroll({ left: XscrollTotal, top: YscrollTotal, behavior: 'smooth' })
+  }
+
+  //             BRANCH
+  //            /      \
+  // BRANCH_BUTTON    BRANCH_SUBMENU   
+
+  /** recurses upward in the DOM tree from 'runner', summing heights in order to obtain
+   *  the y offset of the chosen node, so the screen may be scrolled so its in a nice place 
+   *  Leave console.log's in place, control flow hard to follow! */
+  function addHeightsRecurse(runner, Ysum, menuHeadNode) { 
+      // console.log(runner.getAttribute('mobiwekrole'), runner.clientHeight, runner.textContent)
+      if (runner === menuHeadNode) return Ysum
+      // if (runner.getAttribute('mobiwekrole') === 'BRANCH')
+      //     console.log(runner.firstChild.textContent)
+      if (!runner.previousSibling) {
+          // we are at top leaf in a submenu or menu. 
+          var parentSubMenu = runner.parentNode
+          if (parentSubMenu === menuHeadNode) return Ysum // at very top, break out now.
+          // console.log('BRANCH_BUTTON text: ' + parentSubMenu.previousSibling.textContent)
+          // recurse up to parent menu
+          return addHeightsRecurse(parentSubMenu.parentNode, Ysum + runner.clientHeight, menuHeadNode)
+      }
+      // add height of previous sibling to total, then recurse with previous sibling
+      return addHeightsRecurse(runner.previousSibling, Ysum + runner.clientHeight, menuHeadNode)
   }
 
   function ancestorsToSolidArrow(clickedBranch) {
@@ -201,7 +222,8 @@ import { React, Fragment } from 'react';
                 if (I_am_visible_now) {   //  branch was just opened
                     targetSubmenu.setAttribute('latestClickedSubMenu', "thatsMe")
                     ref_unHighLightMeNextClick.current = targetSubmenu;
-                    scrollVandHToShowChosenSubmenu(targetSubmenu, 0) //targetSubmenu.clientWidth)
+                    // scrollVandHToShowChosenSubmenu(targetSubmenu.parentNode, 0)
+                    scrollVandHToShowChosenSubmenu(targetSubmenu, 0)
                 } else {   // branch was just closed
                     // whoops! this removes the node ... targetSubmenu.remove('latestClickedSubMenu', "pizza")
                     // does nothing..   delete targetSubmenu.latestClickedSubMenu;
@@ -239,8 +261,13 @@ import { React, Fragment } from 'react';
                       // console.log('--mwmMenuFontSize property ' + fontSearchUrlParam);
                       fontSearchUrlParam = '?mwmfont=' + fontSearchUrlParam;
                       /* typically function menuCallback in MobiWekDemo.js It calls Navigate() */
-                      menuCallBackPtr(event.target.attributes.mwmkey.textContent, 
-                      event.target.innerText, fontSearchUrlParam); // innerHTML   outerText  outerHTML
+                      /* whoops, sometimes an image is clicked inside a button. If so, use its parent. */
+                      if (event.target.nodeName === 'IMG')
+                        menuCallBackPtr(event.target.parentNode.attributes.mwmkey.textContent, 
+                              event.target.innerText, fontSearchUrlParam); // innerHTML   outerText  outerHTML
+                      else
+                        menuCallBackPtr(event.target.attributes.mwmkey.textContent, 
+                            event.target.innerText, fontSearchUrlParam); // innerHTML   outerText  outerHTML
                 }, 333)
             });
         })
@@ -313,20 +340,7 @@ function setCSSClassOfLeafAncestors(ancestors, leafNodeTarget, className) {
         }
     });
   }
-function getTotalAncestorWidths(allbranches, clickedBranch, skipLastBranch) {
-      var widthSum = 0; var lastWidth = 0;
-      allbranches.forEach(onebranch => {   // allbranches is a NodeList
-          if (onebranch.contains(clickedBranch)) { // && !(onebranch === clickedBranch)) {
-              // SAVE! var branchLabel = onebranch.previousSibling.textContent;
-              // SAVE! console.log('branchLabel: ' + branchLabel + ' onebranch width: ' + onebranch.clientWidth + ' skipLastBranch ' + skipLastBranch)
-              widthSum += onebranch.clientWidth;
-              lastWidth = onebranch.clientWidth;
-          } 
-      });
-      // below happens when submenu is collapes and we want to scroll to show its parent menu also
-      if (skipLastBranch) widthSum -= lastWidth; 
-      return widthSum;
-  }
+
 */
 /* SAVE AS EXAMPLE BUT NOT USED..  scrolls by examining current css of nodes to see if visible.
      Replaced by function which searches for chosen dom node
@@ -349,22 +363,29 @@ function getTotalAncestorWidths(allbranches, clickedBranch, skipLastBranch) {
       } else { amtToScroll = 0; }
       scrollingFrameOfMenu.scroll({ left: amtToScroll, behavior: 'smooth' })
   }  
-  const nodeWidthForMwRole = (domNode) =>  {
-      // var outp = ''
-      var theWidth;
-      var mwRole = domNode.attributes.mobiwekrole.textContent;
-      if (mwRole === 'LEAF') {
-          // outp += 'LEAF ' + domNode.textContent + ' width ' + domNode.clientWidth;
-          theWidth = domNode.clientWidth;
-      }
-      if (mwRole === 'BRANCH_SUBMENU') { // need parent to get real width
-          // outp += 'BRANCH_SUBMENU ' + domNode.previousElementSibling.textContent + ' width ' + domNode.parentNode.clientWidth
-          theWidth = domNode.parentNode.clientWidth
-      }
-      return theWidth;
+  
   }*/
 
-                  // console.log('button x: ' + event.currentTarget.clientX +
-              //       'button left: ' + event.currentTarget)
-              //       //'button left: ' + this.offsetParent.offsetParent.offsetLeft)
-    
+// console.log('parentNode: ' + runner.parentNode.getAttribute('mobiwekrole'))
+          
+  // if (runner.parentNode.getAttribute('mobiwekrole') === 'BRANCH_SUBMENU') {
+          //     console.log('lastch submenu: ' + runner.parentNode.previousSibling.textContent)
+          //     // return addHeights(runner.parentNode.lastChild, Ysum, menuHeadNode)
+          // }
+  // if (runner.parentNode.getAttribute('mobiwekrole') === 'BRANCH') {
+  //   console.log('lastch: ' + runner.parentNode.lastChild)
+  // }
+
+  // if (parentSubMenu.getAttribute('mobiwekrole') === 'headOfMenuTreeWithTableRowDisplay')
+  //   return (Ysum)
+
+        // has bug: CALCULATE Y OFFSET FOR SCROLLING TO MAKE CHOSEN ITEM INSIDE VIEWPORT
+      // menuHeadNode.childNodes.forEach(leftDiv =>  { 
+      //     if (leftDiv === leftMostAncestor) {
+      //         // console.log("found leftDiv")
+      //         leftMostAncestor = null; // reached the node, so stop loop
+      //     }
+      //     if (leftMostAncestor !== null) {
+      //         YscrollTotal += leftDiv.clientHeight; // console.log('bbv ' + leftDiv.outerHTML) 
+      //     } 
+      // })

@@ -201,7 +201,7 @@ import { FaHome as MenuHomeIcon } from "react-icons/fa";
           // add path to json object, apart from DOM. For searching later.
           // console.log("Item mwmkey: " + mwmkeyVal)
           return(
-              <div mobiwekrole="LEAF" style={{ borderBottom:'1px solid #001bce'}}
+              <div mobiwekrole="LEAF" style={{ borderRight:'1px solid #001bce'}}
                   mwmkey={ mwmkeyVal } >
                   { props.nextLoc.LEAF }
                   {/* { doHtmlBreakTag(props.nextLoc.LEAF) } */}

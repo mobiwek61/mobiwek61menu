@@ -1,5 +1,4 @@
-# mobiwek61menu  
-10/23/2024  
+# mobiwek61menu
 *mobi is "mobile", wek61 is "weka" with the "a" shown as hexadecimal. The awkward name is to eliminate possible name clashes with other entities.*
 
 ## Overview of mobiwek61menu    

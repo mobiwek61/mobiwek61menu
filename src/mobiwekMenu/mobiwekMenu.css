@@ -108,7 +108,7 @@
   [mobiwekrole="BRANCH"], [mobiwekrole="LEAF"]
   {
     padding-left: 6px; /* DONT EDIT */
-    border-bottom: 1px solid #3c74b8;
+    border-bottom: 2px solid #064b9fff;
     border-top: 1px solid #eeeeee; 
     font-weight: 700;
     color: #ffff00;
@@ -141,7 +141,6 @@
     content: var(--mwmBtnAfterShape); /* DONT EDIT */ 
     color: var(--mwmBtnAfterColor); /* DONT EDIT */
     margin-left: 6px; /* DONT EDIT */
-    border-bottom:0px solid #001bce; /* DONT EDIT */
   }
 
   /* toggling this makes it dissappear without taking up space

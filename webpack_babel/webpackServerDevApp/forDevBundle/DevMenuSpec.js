@@ -57,6 +57,37 @@ const lotsa_JSON_Menu_LEAF = (total) => {
     )
 }
 
+const samplePersonImg = <img src='/jpeg/samplePerson.jpg' 
+         style={{ width:'25vw', verticalAlign:'middle' }} alt='xyz' />
+
+const OrgChart = () => {
+  return(
+    { BRANCH:<>Org Chart</>, mwmkey:"OrgChart", items: [
+        { LEAF:"What's this", mwmkey: "whatsThis", mwmtype: "mwtypNull"},
+        { BRANCH:"People", mwmkey:"people", items:[
+            { BRANCH:"Bridge", mwmkey:"Bridge", items:[
+              { LEAF:<>Kirk { samplePersonImg }</>, mwmkey: "Kirk", mwmtype: "mwtypNull", theImage: 'xyz.jpg', theText: 'this person is...'},
+              { LEAF:<>Spock { samplePersonImg }</>, mwmkey: "Spock", mwmtype: "mwtypNull", theImage: 'xyz.jpg', theText: 'this person is...'},
+            ]},
+            { BRANCH:"Engine Room", mwmkey:"engineRm", items:[
+              { LEAF:<>Scotty { samplePersonImg }</>, mwmkey: "Scotty", mwmtype: "mwtypNull", theImage: 'xyz.jpg', theText: 'this person is...'},
+              { LEAF:<>PersonA { samplePersonImg }</>, mwmkey: "PersonD", mwmtype: "mwtypNull", theImage: 'xyz.jpg', theText: 'this person is...'},
+            ]},
+        ]},
+        { BRANCH:"Hull", mwmkey:"Hull", items:[
+          { BRANCH:"Left engine", mwmkey:"lEngine", items:[
+            { LEAF:"reactor", mwmkey: "reactor", mwmtype: "mwtypNull", theImage: 'xyz5.jpg', theText: 'engineering data'},
+            { LEAF:"control panel", mwmkey: "cntrlPanel", mwmtype: "mwtypNull", theImage: 'xyz6.jpg', theText: 'engineering data'},
+          ]},
+          { BRANCH:"Right engine", mwmkey:"rEngine", items:[
+            { LEAF:"reactor", mwmkey: "reactor", mwmtype: "mwtypNull", theImage: 'xyz5.jpg', theText: 'engineering data'},
+            { LEAF:"control panel", mwmkey: "cntrlPanel", mwmtype: "mwtypNull", theImage: 'xyz6.jpg', theText: 'engineering data'},
+          ]},
+        ]},
+      ]}
+  )
+}
+
 /** example of creating a reusable or just bulky menu leaf as a const */
 const const_winslowHomerFogWarning = { LEAF:"fog Warning", mwmkey: "winslowHomerFogWarning",
   txtdesc:<>The fisherman is worried he cannot return to the schooner because of impending fog.<br/>
@@ -136,7 +167,7 @@ const mobiwekMenuJSONexample_1 =
            txtdesc:<>from https://www.edwards.af.mil/News/Photos/igphoto/2001667598/</>, 
            imgurl:'/jpeg/hist/aerospace/WIKIMEDIA-X-15_flying.jpg' }
       ]},
-      { BRANCH:"Lib Of Congress", mwmkey:"LibCongress", items: [
+      { BRANCH:<>Lib Of<br/>{space4}Congress</>, mwmkey:"LibCongress", items: [
         { BRANCH:"picts", mwmkey:"picts", items:[
           { LEAF:"American Gothic", mwmkey: "gwoodAmericanGothic", mwmtype: "image",
               imgurl:'/jpeg/WIKIMEDIA_American_Gothic.jpg'
@@ -145,46 +176,89 @@ const mobiwekMenuJSONexample_1 =
             const_winslowHomerFogWarning,
             { LEAF:<>Ship-building,<br/>{space4}Gloucester<br />{space4}Harbor</>, mwmkey: "winslowHomerShipBuilding",
               mwmtype: "image",
-              //imgurl:'https://tile.loc.gov/storage-services/service/pnp/cph/3c30000/3c32000/3c32900/3c32923r.jpg' 
-              //imgurl:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Winslow_Homer_-_Ship_Building%2C_Gloucester_Harbor_%281873%29.jpg/1024px-Winslow_Homer_-_Ship_Building%2C_Gloucester_Harbor_%281873%29.jpg'
-              imgurl:'https://mobiwek61menu.github.io/imgsFromWikimediaAndLibOfCongress/docs/assets/loc-shipbuilding.jpg'
+              imgurl:"/jpeg/loc-shipbuilding.jpg"
+              //imgurl:'https://mobiwek61menu.github.io/imgsFromWikimediaAndLibOfCongress/docs/assets/loc-shipbuilding.jpg'
             }
           ]},
         ]},
       ]}, 
-      { BRANCH:"Drinks", mwmkey:"beverages", items:[
+      { BRANCH:<>springfield<br/>{space4}govt demo</>, mwmkey:"springfieldGov", items: [
+        { LEAF:"summary info", mwmkey: "springfieldDemo", mwmtype: "mwtypNull"},
+        { BRANCH:"deeds", mwmkey:"deeds", items:[
+            { BRANCH:"commercial", mwmkey:"commercial", items:[
+              { LEAF:"deed1", mwmkey: "deed1", mwmtype: "mwtypNull"},
+              { LEAF:"deed2", mwmkey: "deed2", mwmtype: "mwtypNull"},
+            ]},
+            { BRANCH:"residential", mwmkey:"residential", items:[
+              { LEAF:"deed1", mwmkey: "deed1", mwmtype: "mwtypNull"},
+              { LEAF:"deed2", mwmkey: "deed2", mwmtype: "mwtypNull"},
+            ]},
+        ]},
+        { BRANCH:"forms (pdf)", mwmkey:"forms", items:[
+          { BRANCH:"health", mwmkey:"health", items:[
+            { LEAF:"covid", mwmkey: "covid", mwmtype: "mwtypNull"},
+            { LEAF:"flu", mwmkey: "flu", mwmtype: "mwtypNull"},
+          ]},
+          { BRANCH:"tax", mwmkey:"tax", items:[
+            { LEAF:"property", mwmkey: "property", mwmtype: "mwtypNull"},
+            { LEAF:"co2", mwmkey: "co2", mwmtype: "mwtypNull"},
+          ]},
+        ]},
+      ]}, 
+  
+      { BRANCH:<>Drinks<br/>{space4}(router test)</>, mwmkey:"beverages", items:[
         { LEAF:"Mojito", mwmkey: "mojito", mwmtype:"mwtypNull" },  
         { BRANCH:"Hot Drink", mwmkey:"hotDrink", items:[
             { LEAF:"Tea", mwmkey: "tea", mwmtype:"mwtypNull" },      
             { LEAF:"Coffee", mwmkey: "coffee", mwmtype:"mwtypNull" },
         ]},
       ]},
-      // SAVE BELOW EXAMPLE to verify React routing (see matching entry in code)
-      { BRANCH:<>tools for my<br/>{space4}workshop</>, mwmkey:"workshopTools", items: [
-        { LEAF:"hone", mwmkey: "hone", mwmtype:"mwtypNull" },
-        { BRANCH:"power", mwmkey:"power", items:[
-            { LEAF:"drillPress", mwmkey: "drillPress", mwmtype:"mwtypNull" },
-            { BRANCH:"saw", mwmkey:"saw", items:[
-              { LEAF:"band", mwmkey: "band", mwmtype:"mwtypNull" },
-              { LEAF:"chainsaw", mwmkey: "chainsaw", mwmtype:"mwtypNull" }]}
+      { BRANCH:"Scroll Test", mwmkey:"scrollTest", items:[
+        ...lotsa_JSON_Menu_LEAF(22), 
+        { BRANCH:"today's_soup", mwmkey:"todaysSoup", items: [
+          { BRANCH:"cold", mwmkey:"cold", items: [
+              { LEAF:"vichysoisse", mwmkey: "vichysoisse", mwmtype:"mwtypNull" },
+              { LEAF:"borscht", mwmkey: "borscht", mwmtype:"mwtypNull" }
+          ]},
+          { LEAF:"chowder", mwmkey: "chowder", mwmtype:"mwtypNull" },
+          { LEAF:"tomato", mwmkey: "tomato", mwmtype:"mwtypNull" }
         ]},
-        { BRANCH:"hand", mwmkey:"hand", items:[
-            { LEAF:"punch", mwmkey:"punch", mwmtype:"mwtypNull" },
-            { LEAF:"pliers", mwmkey:"pliers", mwmtype:"mwtypNull" }]}
+        ...lotsa_JSON_Menu_LEAF(5), // need spread operator to unwind the array of JSON objects (the menus)
+      ]},
+
+
+      // ...lotsa_JSON_Menu_LEAF(22), 
+      // { BRANCH:"today's_soup", mwmkey:"todaysSoup", items: [
+      //   { BRANCH:"cold", mwmkey:"cold", items: [
+      //       { LEAF:"vichysoisse", mwmkey: "vichysoisse", mwmtype:"mwtypNull" },
+      //       { LEAF:"borscht", mwmkey: "borscht", mwmtype:"mwtypNull" }
+      //   ]},
+      //   { LEAF:"chowder", mwmkey: "chowder", mwmtype:"mwtypNull" },
+      //   { LEAF:"tomato", mwmkey: "tomato", mwmtype:"mwtypNull" }
+      // ]},
+      // ...lotsa_JSON_Menu_LEAF(5), // need spread operator to unwind the array of JSON objects (the menus)
+
+
+      { BRANCH:"React route test", mwmkey:"rrouteTest", items:[
+        // SAVE BELOW EXAMPLE to verify React routing (see matching entry in code)
+        { BRANCH:<>tools for my<br/>{space4}workshop</>, mwmkey:"workshopTools", items: [
+          { LEAF:"hone", mwmkey: "hone", mwmtype:"mwtypNull" },
+          { BRANCH:"power", mwmkey:"power", items:[
+              { LEAF:"drillPress", mwmkey: "drillPress", mwmtype:"mwtypNull" },
+              { BRANCH:"saw", mwmkey:"saw", items:[
+                { LEAF:"band", mwmkey: "band", mwmtype:"mwtypNull" },
+                { LEAF:"chainsaw", mwmkey: "chainsaw", mwmtype:"mwtypNull" }]}
+          ]},
+          { BRANCH:"hand", mwmkey:"hand", items:[
+              { LEAF:"punch", mwmkey:"punch", mwmtype:"mwtypNull" },
+              { LEAF:"pliers", mwmkey:"pliers", mwmtype:"mwtypNull" }]}
+        ]},
       ]},
       const_winslowHomerFogWarning, 
+      OrgChart()
       // put in lots of lines to force page scroll for testing proper behavior
       // need (...) spread operator to unwind the array of JSON objects (the menus)
-      ...lotsa_JSON_Menu_LEAF(22), 
-      { BRANCH:"today's_soup", mwmkey:"todaysSoup", items: [
-        { BRANCH:"cold", mwmkey:"cold", items: [
-            { LEAF:"vichysoisse", mwmkey: "vichysoisse", mwmtype:"mwtypNull" },
-            { LEAF:"borscht", mwmkey: "borscht", mwmtype:"mwtypNull" }
-        ]},
-        { LEAF:"chowder", mwmkey: "chowder", mwmtype:"mwtypNull" },
-        { LEAF:"tomato", mwmkey: "tomato", mwmtype:"mwtypNull" }
-      ]},
-      ...lotsa_JSON_Menu_LEAF(5), // need spread operator to unwind the array of JSON objects (the menus)
+      
     ]};
     
     

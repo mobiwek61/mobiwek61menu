@@ -93,7 +93,23 @@ function ReactAppForDevelopment() {
         scrollable thing with a narrow page-refresh band at the top of the screen  */}
     {/* <Route path='about_app' element={MobiWekPageWrapper( Do_about_app() )} /> */}
     <Route path='about_app' element={ < Do_about_app /> } />
-
+    <Route path="springfieldGov/springfieldDemo" 
+       element={ <div className={devProjCSS.divInMiddle + ' ' + devProjCSS.textShadowB} >
+        Demo of gov't use. Springfield is chosen because this name is very ambiguous.</div> } />
+ 
+    
+    <Route path="OrgChart"> 
+        <Route path="whatsThis"
+          element={ <div className={devProjCSS.divInMiddle + ' ' + devProjCSS.textShadowB} >
+            Experiment test Org chart. <br/>
+            Such an application would need: <ul>
+            <li>full user interface for data entry and editing</li>
+            <li>something to restrict access only to authorized viewers</li>
+            <li>security, database etc</li></ul>
+            </div> } /> 
+        <Route path='*' element={ < OrgChart />} />
+    </Route>
+    
     <Route path='coffee' element={<div style={{ marginTop:'25vh'}}>Coffee route here</div>} />
     {/* REST-style: any route staring with beverages followed by a single path */}
     <Route path='beverages'>
@@ -173,7 +189,7 @@ function ReactAppForDevelopment() {
     const navigate = useNavigate();
     return(<>
       <MobiWekMenuFrame
-          appTitle="Doughnut-DEV"
+          appTitle="MENU-DEMO"
           mobiwekMenuJSON_A={ props.mwmenuRoot }  
           menuCallBackPtr={ ReactAppForDevelopmentMenuCallbackFn }  
           overflowCSS="hidden" //"scroll" // leads to div "divPageContentInFrameHelper" having this property
@@ -221,6 +237,16 @@ function ReactAppForDevelopment() {
         </ul>
     </div>)
   }
+
+  function OrgChart() {
+    // var params = useParams();
+    var fullUrlPath = useLocation().pathname;
+    var mwmkeyLeaf = findJsonObjectByFullPath(theMobiwekMenu, fullUrlPath)
+    return(<div className={devProjCSS.divInMiddle + ' ' + devProjCSS.textShadowB} >
+        Handler for OrgChart.<br/>"{fullUrlPath}" chosen. <br/>Displays image<br/> "{mwmkeyLeaf.theImage}" 
+        <br/>with text<br/> "{mwmkeyLeaf.theText}"
+      </div>)
+}
   
   /** depending of parameters, show specific webpage. If no match, decide if image is shown */
   function Aircraft() {
@@ -328,12 +354,12 @@ function ReactAppForDevelopment() {
           return MediaPictureWithInfo(mwmkeyLeaf)
       // if not just show a message
       // following shows how JSX mixes variables with markuup and styles. A bit weird looking.
-      const redHi = { background:'#ffcccc', overflowWrap: 'anywhere' }
+      const redHi = { background:'#ff00001f', overflowWrap: 'anywhere' }
       return(<div className='blockyMsg' style={{ marginTop:'20vh' }}> {/* marginTop pushes to mid-page */}
         function HandleByFullPathToFindMenuEntry. <br/> fullUrlPath:
         <span style={redHi} > { fullUrlPath }  </span> 
          mwmkey:  <span style={redHi} >{mwmkeyLeaf.mwmkey}</span><br/> 
-         <div style={{background: '#ffff00', margin:'0 7vw 0 7vw'}} >
+         <div style={{background: '#ff00001f', margin:'0 7vw 0 7vw'}} >
           This leaf does not define imgurl and was not caught by one of the 
           defined Routes using import react-router-dom</div>
         </div>)
