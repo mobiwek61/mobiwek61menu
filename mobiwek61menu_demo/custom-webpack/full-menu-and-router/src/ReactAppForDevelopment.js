@@ -11,8 +11,8 @@ import devProjCSS from './devProject.module.css'
  * */
 import { PopupDebugShowsQRandCmdLine, findJsonObjectByFullPath, validateMwMenu,
     MediaPictureWithInfo,  MobiWekMenuFrame, MobiWekPageWrapper } 
-    from '../../../src/PackageTreeEntry'; // coders of the package do it this way. use this when developing the package
-    // from 'mobiwek61menu'; // Users of package do it this way. use this when the package has been "npm installed"'ed. 
+    //from '../../../src/PackageTreeEntry'; // coders of the package do it this way. use this when developing the package
+     from 'mobiwek61menu'; // Users of package do it this way. use this when the package has been "npm installed"'ed. 
 
 /* WARNING: react-router-dom < V.6 crashes.  */
 

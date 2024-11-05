@@ -1,0 +1,19 @@
+
+
+.blockyMsg {
+    font-size:18px; font-weight: 700; color: #ff0000; 
+    background-color:#d3faf8; font-family: 'Noto Sans', sans-serif; 
+  }
+
+.textShadowB {
+    /* offset-x | offset-y | blur-radius | color */
+     /* text-shadow: 3px 3px 12px #ffffff, -3px -3px 12px #ffffff; */
+     /* color:#00ff00; */
+     text-shadow: 2px 2px 4px rgb(0, 0, 0);
+  }
+.divInMiddle {
+    position: absolute;
+    width:84vw;
+    top:40vh; left:8vw
+}
+.pushDown { margin-top: 20vh;}
