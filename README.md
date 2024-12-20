@@ -1,3 +1,5 @@
+## This version is out of sync with the latest deployed npm package on npmjs.com TODO: fix it.
+
 # mobiwek61menu
 *mobi is "mobile", wek61 is "weka" with the "a" shown as hexadecimal. The awkward name is to eliminate possible name clashes with other entities.*
 
