@@ -1,5 +1,5 @@
 # mobiwek61menu  
-1/17/2025 popup as param, iPhone infobutton bug fixed  
+1/17/2025 popup as json param, iPhone infobutton bug fixed  
 *mobi is "mobile", wek61 is "weka" with the "a" shown as hexadecimal. The awkward name is to eliminate possible name clashes with other entities.*
 
 ## Overview of mobiwek61menu    
