@@ -140,7 +140,9 @@ function ReactAppForDevelopment() {
       // if leaf is an image, just give to MediaPictureWithInfo()
       if (mwmkeyLeaf.mwmtype === 'image') {
         console.log("Aircraft() handler, just am image"); 
-        return MediaPictureWithInfo(mwmkeyLeaf) 
+        return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf}  
+                //imageDescPopup={Popup_custom} 
+              />
       }
       // get here only if there is a problem
       return (<>ExperimentalAircraft no handler found</>)
@@ -216,7 +218,9 @@ function ReactAppForDevelopment() {
       }
       
       if (mwmkeyLeaf.imgurl !== undefined) 
-          return MediaPictureWithInfo(mwmkeyLeaf)
+        return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf}  
+          //imageDescPopup={Popup_custom} 
+        />
       // if not just show a message
       // following shows how JSX mixes variables with markuup and styles. A bit weird looking.
       const redHi = { background:'#ff00001f', overflowWrap: 'anywhere' }

@@ -1,4 +1,7 @@
 
+1/17/2025
+todo: remove Popup_custom.tsx and LeafletHelper. Then deploy bundle to npmjs with change to allow popup callback.
+
 ### This folder has code to be included in the development bundle by webpack.
 - It starts up react and loads a dev application
 - Code here is not included in a public distribution.  

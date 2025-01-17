@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, Outlet, useParams,  useNavigate, useLocation } from "react-router-dom";
 import { mobiwekMenuJSONexample_1 } from  "./DevMenuSpec";
+// import { Popup_custom } from "./Popup_custom.tsx"
 import devProjCSS from './devProject.module.css'
 
-/**  IF USING IMPORT FROM PUBLISHED OR LOCAL PACKAGE, IGNORE THIS:
- *   This is the development version and so gets included into the dev bundle by webpack.
- *   That is why imports are done via the filesystem and not via a bundle.
- *   An equivalent version of this file exists in the example (bundle imporing) app and imports are from the bundle
- *   which has been installed previously by "npm i mybundle" or "npm i ../../webpackOutput/mybundle" [local use for dev]
- * */
-import { PopupDebugShowsQRandCmdLine, findJsonObjectByFullPath, validateMwMenu,
-    MediaPictureWithInfo,  MobiWekMenuFrame, MobiWekPageWrapper } 
-    from '../../../src/PackageTreeEntry'; // coders of the package do it this way. use this when developing the package
-    // from 'mobiwek61menu'; // Users of package do it this way. use this when the package has been "npm installed"'ed. 
+/**  Ignore this if you are using the package but not developing it (such as importing it).
+ *   This is the development version and imports are done via the filesystem and not via a bundle.
+ */
+import { Popup_descrip_qr_scrollTips, findJsonObjectByFullPath, validateMwMenu,
+    MediaPictureWithInfo,  MobiWekMenuFrame, MobiWekPageWrapper, PopupProps } 
+    // if using the package, not developing, comment out following line and uncomment the other line.
+    from '../../../src/PackageTreeEntry.tsx'; 
+    // Users of package do it this way. use this when the package has been "npm installed"'ed via npmjs or filesystem.
+    // from 'mobiwek61menu';  
 
 /* WARNING: react-router-dom < V.6 crashes.  */
 
@@ -26,9 +26,13 @@ import { PopupDebugShowsQRandCmdLine, findJsonObjectByFullPath, validateMwMenu,
  * @returns component with entire app
  */
 function ReactAppForDevelopment() {
-  /* !!! useEffect() !!! huh ?
+  /*  Text from https://patorjk.com/software/taag   Font Name: "tmplr" ("=" is 3 lines)     "small" is also good
+      ━━━━━━━━  ┓ ┏┓┏┏┓┏┳┓  ┳┏┓  ┳┳┏┓┏┓┏┓┏┓┏┓┏┓┏┳┓  ┏┓  ━━━━━━━━━━
+      ━━━━━━━━  ┃┃┃┣┫┣┫ ┃   ┃┗┓  ┃┃┗┓┣ ┣ ┣ ┣ ┃  ┃   ┏┛  ━━━━━━━━━━
+      ━━━━━━━━  ┗┻┛┛┗┛┗ ┻   ┻┗┛  ┗┛┗┛┗┛┻ ┻ ┗┛┗┛ ┻   •   ━━━━━━━━━━
      In the React world "useEffect" is a conponent lifecycle function. Controlled by argument 2 as follows:
-     missing: run always;  [] empty: run only once when component mounts; [foo] run when useState foo changes */
+     missing: run always;  [] empty: run only once when component mounts; [foo] run when useState foo changes
+     More about this at end of file comments */
   useEffect(() => { 
     // console.log('ReactAppForDevelopment useEffect') 
   }, []); 
@@ -39,7 +43,7 @@ function ReactAppForDevelopment() {
   // get "css variable" from css file using getComputedStyle().  
   var cssVariableFromCSSfile_fontsizeA = 
         getComputedStyle(document.body).getPropertyValue('--fontSizeA')
-  console.log('mon 9th b')
+  console.log('zz')
   {/* the code below has parts which looks like HTML is actually JSX. One big difference is when css
       style is specified, things like margin-bottom become marginBottom and the value
       appears in quotes. Also note the double brackets around css. */}
@@ -52,7 +56,8 @@ function ReactAppForDevelopment() {
           <Route path='/' // this route always taken. Serves as menu frame for content
               //       ^ all routes hit this one because its /
               element=
-                  {<div id='reactRouterTopRoute' className='eatZoomGesture'
+                  {
+                  <div id='reactRouterTopRoute' className='eatZoomGesture'
                         style={{ fontSize:cssVariableFromCSSfile_fontsizeA}} >
                       {/* 
                       Below is the top level div of menu. Encompasses the entire screen but is transparent
@@ -63,8 +68,7 @@ function ReactAppForDevelopment() {
                       <Mobiwek61MenuTop mwmenuRoot={theMobiwekMenu}  pageContent={<Outlet/>} />
                   </div>} 
           >
-            <Route path='qrCode' element={<PopupDebugShowsQRandCmdLine isVisible={ true } callBackCloseMe={null} />} />
-            
+    
             {/* Note: need "()"", and dont use form <SetupRoutes/> cause its not a JSX 
                 This is how to insert lots of routes without code clutter */}
             { SetupRoutes_A() }
@@ -269,11 +273,20 @@ function ReactAppForDevelopment() {
       // if leaf is an image, just give to MediaPictureWithInfo()
       if (mwmkeyLeaf.mwmtype === 'image') {
         console.log("Aircraft() handler, just am image"); 
-        return MediaPictureWithInfo(mwmkeyLeaf) 
+        // works ok without JSX style ->    return MediaPictureWithInfo(mwmkeyLeaf, ClientPupA) 
+        //return <MediaPictureWithInfo comment='imageDescPopup param missing' mwmkeyLeaf={mwmkeyLeaf} />
+        //return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf} imageDescPopup={TestClientPupA} />
+        return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf}  
+                //imageDescPopup={Popup_custom} 
+              />
       }
       // get here only if there is a problem
       return (<>ExperimentalAircraft no handler found</>)
   }
+
+  function TestClientPupA(cprops) { console.log(cprops.txtdesc)
+    return <>this is ClientPupA bb + {cprops.txtdesc}</>  }
+
 
   /** custom page for x15 */
   function Page_x15_spaceplane(mwmkeyLeaf) {
@@ -354,7 +367,9 @@ function ReactAppForDevelopment() {
       }
       
       if (mwmkeyLeaf.imgurl !== undefined) 
-          return MediaPictureWithInfo(mwmkeyLeaf)
+        // works also ->     return MediaPictureWithInfo(mwmkeyLeaf, ClientPupA)
+        return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf}  
+                                     usedefault-imageDescPopup={'zzzz'}/>
       // if not just show a message
       // following shows how JSX mixes variables with markuup and styles. A bit weird looking.
       const redHi = { background:'#ff00001f', overflowWrap: 'anywhere' }
@@ -374,16 +389,16 @@ function ReactAppForDevelopment() {
 
 }
 
-export { ReactAppForDevelopment };
+export { ReactAppForDevelopment, PopupProps };
 
 /* WARNING: this app needs react-router-dom V.6 or newer.
    To check that you have V.6 this should crash the app: import { Prompt } from "react-router-dom";
 */
-/* Text from https://patorjk.com/software/taag   Font Name: ??                                                                               
-  ___ ___   _   ___ _____   _    ___ ___ ___ _____   _____ _    ___   __  __ ___ _____ _  _  ___  ___  ___ 
- | _ \ __| /_\ / __|_   _| | |  |_ _| __| __/ __\ \ / / __| |  | __| |  \/  | __|_   _| || |/ _ \|   \/ __|
- |   / _| / _ \ (__  | |   | |__ | || _|| _| (__ \ V / (__| |__| _|  | |\/| | _|  | | | __ | (_) | |) \__ \
- |_|_\___/_/ \_\___| |_|   |____|___|_| |___\___| |_| \___|____|___| |_|  |_|___| |_| |_||_|\___/|___/|___/
+/* Text from https://patorjk.com/software/taag   Font Name: "tmplr" ("=" is 3 lines)     "small" is also good
+
+━━━━━━━━  ┳┓┏┓┏┓┏┓┏┳┓  ┓ ┳┏┓┏┓┏┓┓┏┏┓┓ ┏┓  ┳┳┓┏┓┏┳┓┓┏┏┓┳┓┏┓  ━━━━━━━━━━
+━━━━━━━━  ┣┫┣ ┣┫┃  ┃   ┃ ┃┣ ┣ ┃ ┗┫┃ ┃ ┣   ┃┃┃┣  ┃ ┣┫┃┃┃┃┗┓  ━━━━━━━━━━
+━━━━━━━━  ┛┗┗┛┛┗┗┛ ┻   ┗┛┻┻ ┗┛┗┛┗┛┗┛┗┛┗┛  ┛ ┗┗┛ ┻ ┛┗┗┛┻┛┗┛  ━━━━━━━━━━
                                                                                                           
    * COMPONENT LIFECYCLE METHODS: react.js has lifecycle methods called by the framework
    * when a component first loads, another one every time it renders, another one every time

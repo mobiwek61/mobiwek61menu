@@ -25,7 +25,7 @@ function Popup_descrip_qr_scrollTips(props) {
     } 
     // TODO when dialog is shows a second time and the toast is shown, a flash happens when toast hides
     useEffect(() => { 
-        // console.log(PopupDebugShowsQRandCmdLine.name + ' ' + props.isVisible + ' ' + alreadyVisible.current)
+        //console.log('qqqq ' + props.isVisible + ' ' + alreadyVisible.current)
         /* useEffect fires when the dialog has fully loaded. 
            Now determine if user is done with the dialog. If so do animation to
            hide it in a spiffy way. */
@@ -58,7 +58,7 @@ function Popup_descrip_qr_scrollTips(props) {
                          maxHeight:window.innerHeight - (window.innerHeight * 0.2) + 'px', 
                          }} >
                 <div id='detailDivA' style={{ display:'none'}} className='popup_textblock buttonA' >
-                  <div>Scan QR to show this page on mobile</div>
+                  <div id='zz8'>..Scan QR to show this page on mobile</div>
                   <canvas ref={qrcanvas} style={{ width:'200px', height:'200px'}} />
                 </div>
                 <div id='detailDivB' style={{ display:'none'}} className='popup_textblock buttonA' >
@@ -86,6 +86,7 @@ function Popup_descrip_qr_scrollTips(props) {
                   </div>
                   <div className='buttonA' 
                     onClick={() => { 
+                      console.log('buttonA clicked')
                       document.querySelectorAll('[id^="detailDiv"]') // close all popups
                           .forEach((bbb) => { bbb.style.display = 'none'})
                       document.querySelector('#detailDivA').style.display = 'block'}} 

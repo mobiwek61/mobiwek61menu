@@ -1,6 +1,5 @@
-## This version is out of sync with the latest deployed npm package on npmjs.com TODO: fix it.
-
-# mobiwek61menu
+# mobiwek61menu  
+1/17/2025 popup as param, iPhone infobutton bug fixed  
 *mobi is "mobile", wek61 is "weka" with the "a" shown as hexadecimal. The awkward name is to eliminate possible name clashes with other entities.*
 
 ## Overview of mobiwek61menu    
@@ -29,6 +28,7 @@ This project may be run in 4(**!**) ways:
   - **I use this:** using custom config of webpack/babel to run its built-in dev server. See folder **webpack_babel** for README.MD
   - using **webpack_babel** folder to create a bundle file using webpack.config\*.js files here as a custom setup. It took me a long time to configure these files for React, so they are extensively documented. The resulting bundle is installed/tested using app in **webpack_babel/npmInstTestApp**.  
   - running the bundle file without a server by clicking on index.html in the bundle distribution folder setup above. This has bugs but its fun to try out.
+- **Folder src** has code for this package, but no start point for testing/developing. Use code under webpack_babel/webpackServerDevApp; run the webpack server-start script there and any changes to src and the test app get eaten as soon as they are saved.  Another script packs the package into a bundle*.js for distribution.  
 - **Folder webpack_babel** has webpack setup for:
   - running webpack's development server for development using webpack.config\*.js files here as a custom setup. 
   - This folder has its own node_modules and package.json. These are to provide webpack/babel functionality to create bundles. They are not used by the main project or exported in the bundles.
@@ -52,5 +52,9 @@ IN JAVASCRIPT (requires HTML script tag loading javascript file)
 - modify runWebpackSrv script to check for duplicate node_modules in hierarchy
 ### BUG
 - on desktop with mouse, cannot use mouse to drag menu when it is larger than the screen. Works ok on laptop trackpad and android. There's probably one line of css fixing this but I haven't found it. Put in some test code src\mobiwekMenu\mobiwekMenuBuilder.js, line 126. 
+### VSCode displays only one edit file tab at a time. To Fix:  
+  In File->settings,   
+  workbench->editor->enable preview ...   
+  Deselect this.
 
 

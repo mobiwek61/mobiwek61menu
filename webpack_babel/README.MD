@@ -4,6 +4,8 @@
 
 ### This folder is for running and configuring a custom webpack setup.
 - To publish a package to npmjs.com or just package it into a bundle.js file, you need what's in this folder.  To just code the project, you can use the setup here or ```npm start``` in the project root.  
+- Source for package code is at ```../src```  
+  Code in this folder is non-package code and uses the package. It is here for package development and testing.  
 - Webpack is setup by the create React thing **npx create-react-app my-app**, but its details are hidden and a beginning user has no idea it's there; you just run "npm start", the React.js appears in a browser and you go coding.  *To see what it does, look in node_modules/react-scripts/\*, but its really ugly*.
 - **In this folder, webpack is setup from scratch** so you can learn how to use it and also **create .js bundles for publishing to npmjs.com**. **React** requires several **customizations** for this to work:
   - Webpack gets setup to run babel to "transpile" jsx in react.js code into regular javascript, prior to bundling; bundles cannot have jsx because they run in a browser.  

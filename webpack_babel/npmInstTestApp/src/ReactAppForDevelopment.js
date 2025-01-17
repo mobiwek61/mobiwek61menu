@@ -1,10 +1,13 @@
 
 
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes, Outlet, useParams,  useNavigate, useLocation } from "react-router-dom";
 import { mobiwekMenuJSONexample_1 } from  "./DevMenuSpec";
+// import { Popup_MyVersion } from './Popup_MyVersion.tsx';
 import devProjCSS from './devProject.module.css'
+
+// to fix intellisense from package try:  "types": "./index.d.ts", or https://www.npmjs.com/~types, or https://www.typescriptlang.org/docs/handbook/declaration-files/publishing.html
 
 /**  IF USING IMPORT FROM PUBLISHED OR LOCAL PACKAGE, IGNORE THIS:
  *   This is the development version and so gets included into the dev bundle by webpack.
@@ -12,7 +15,7 @@ import devProjCSS from './devProject.module.css'
  *   An equivalent version of this file exists in the example (bundle imporing) app and imports are from the bundle
  *   which has been installed previously by "npm i mybundle" or "npm i ../../webpackOutput/mybundle" [local use for dev]
  * */
-import { PopupDebugShowsQRandCmdLine, findJsonObjectByFullPath, validateMwMenu,
+import { findJsonObjectByFullPath, validateMwMenu,
     MediaPictureWithInfo,  MobiWekMenuFrame, MobiWekPageWrapper } 
     // from '../../../src/PackageTreeEntry'; // coders of the package do it this way. use this when developing the package
     from 'mobiwek61menu'; // Users of package do it this way. use this when the package has been "npm installed"'ed. 
@@ -29,9 +32,13 @@ import { PopupDebugShowsQRandCmdLine, findJsonObjectByFullPath, validateMwMenu,
  * @returns component with entire app
  */
 function ReactAppForDevelopment() {
-  /* !!! useEffect() !!! huh ?
+  /*  Text from https://patorjk.com/software/taag   Font Name: "tmplr" ("=" is 3 lines)     "small" is also good
+      ━━━━━━━━  ┓ ┏┓┏┏┓┏┳┓  ┳┏┓  ┳┳┏┓┏┓┏┓┏┓┏┓┏┓┏┳┓  ┏┓  ━━━━━━━━━━
+      ━━━━━━━━  ┃┃┃┣┫┣┫ ┃   ┃┗┓  ┃┃┗┓┣ ┣ ┣ ┣ ┃  ┃   ┏┛  ━━━━━━━━━━
+      ━━━━━━━━  ┗┻┛┛┗┛┗ ┻   ┻┗┛  ┗┛┗┛┗┛┻ ┻ ┗┛┗┛ ┻   •   ━━━━━━━━━━
      In the React world "useEffect" is a conponent lifecycle function. Controlled by argument 2 as follows:
-     missing: run always;  [] empty: run only once when component mounts; [foo] run when useState foo changes */
+     missing: run always;  [] empty: run only once when component mounts; [foo] run when useState foo changes
+     More about this at end of file comments */
   useEffect(() => { 
     // console.log('ReactAppForDevelopment useEffect') 
   }, []); 
@@ -60,8 +67,8 @@ function ReactAppForDevelopment() {
                       <Mobiwek61MenuTop mwmenuRoot={theMobiwekMenu}  pageContent={<Outlet/>} />
                   </div>} 
           >
-            <Route path='qrCode' element={<PopupDebugShowsQRandCmdLine isVisible={ true } callBackCloseMe={null} />} />
-            
+            {/* <Route path='qrCode' element={<PopupDebugShowsQRandCmdLine isVisible={ true } callBackCloseMe={null} />} />
+             */}
             {/* Note: need "()"", and dont use form <SetupRoutes/> cause its not a JSX 
                 This is how to insert lots of routes without code clutter */}
             { SetupRoutes_A() }
@@ -205,7 +212,13 @@ function ReactAppForDevelopment() {
       // if leaf is an image, just give to MediaPictureWithInfo()
       if (mwmkeyLeaf.mwmtype === 'image') {
         console.log("Aircraft() handler, just am image"); 
-        return MediaPictureWithInfo(mwmkeyLeaf) 
+        // return MediaPictureWithInfo(mwmkeyLeaf) 
+        return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf}  
+                // zzz-imageDescPopup={'deactivated will show default'} />
+                // below shows how to specify a custom info popup.
+                // If you are not experienced please ignore this!
+                /////imageDescPopup={Popup_MyVersion} 
+               />
       }
       // get here only if there is a problem
       return (<>ExperimentalAircraft no handler found</>)
@@ -282,13 +295,15 @@ function ReactAppForDevelopment() {
       // fullUrlPath = 'LibCongress/pictszzzz/gwoodAmericanGothic'
       var mwmkeyLeaf = findJsonObjectByFullPath(props.mwmenuRoot, fullUrlPath)
       //console.log('found ' + mwmkeyLeaf.mwmkey + '  path ' + fullUrlPath)
-      if (mwmkeyLeaf.error != undefined) {
+      if (mwmkeyLeaf.error !== undefined) {
           console.log('WARNING ' + fullUrlPath + ' path not found in menu JSON object')
           return(<span className='blockyMsg' ><br/> full path not found: { fullUrlPath } </span>)
       }
       
       if (mwmkeyLeaf.imgurl !== undefined) 
-          return MediaPictureWithInfo(mwmkeyLeaf)
+          // return MediaPictureWithInfo(mwmkeyLeaf)
+          return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf}  
+                    zzzzimageDescPopup={'zzz'} />
       // if not just show a message
       // following shows how JSX mixes variables with markuup and styles. A bit weird looking.
       const redHi = { background:'#ffcccc', overflowWrap: 'anywhere' }

@@ -1,0 +1,2 @@
+This folder has source for the package for which this project exists.  
+It does not have code to start React; that is under ```./webpack_babel``` which has code which uses this package. During development that code imports code via the filesystem and a script is run to start the webpack dev server. For deployment another script runs webpack to build the bundle. The above folder has a separate test app which imports the bundle.

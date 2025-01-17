@@ -1,9 +1,4 @@
 
-/* 1/2025 update: type this into Copilot RESULT NOT TESTED!!: 
-  "make a webpack_config.js for a React.js app using typescript. 
-  Include stuff to create a bundle for export. 
-  It must deal with JSX in source. do not use htmlwebpackplugin."
-*/
 
 // WEBPACK.CONFIG HAS SEVERAL VERSIONS, CONFIGURED BY (UN)COMMENTING VARIOUS LINES. OTHERWISE IDENTICAL.
 // NOT ME >>>  file webpack.config_build.js. This version for creating bundle.js for export
@@ -39,7 +34,7 @@ module.exports =
   
   // for development bundle, include dev React startup code (has ReactDOM.createRoot(... ) plus the 
   //    tree entry point.
-  entry: ['./webpackServerDevApp/forDevBundle/startReactInDiv.js', '../src/PackageTreeEntry.tsx'],
+  entry: ['./webpackServerDevApp/forDevBundle/startReactInDiv.js', '../src/PackageTreeEntry.js'],
 
   // below entry does nothing. It only serves as point to start dependency graph to build bundle
   // entry: '../src/PackageTreeEntry.js',
@@ -80,8 +75,8 @@ module.exports =
     // this one gets rid of annoying "download devtools" message..
     //new (require('webpack')).DefinePlugin({'__REACT_DEVTOOLS_GLOBAL_HOOK__': '({ isDisabled: true })'}),
     // my own plugin to show qr code ascii in console for mobile viewing
-    // hide it for now..   new MyWebpackPlugin_shows_URL_as_qrcode({ options: true, urlpath: ':3003/x15/x15?mwmfont=24.7px' })],
-  ],
+    new MyWebpackPlugin_shows_URL_as_qrcode({ options: true, urlpath: ':3003/x15/x15?mwmfont=24.7px' })],
+
   // the 'npx create-react-app my-app' thing uses HtmlWebpackPlugin to insert 
   // something like ' <script src="/bundle_webpackServer.js"></script>' into index.html before running so
   // so the coder does not have to. I didn't know why the script tab was not needed and thought
@@ -127,34 +122,17 @@ module.exports =
   // In this case, there's 1 module which calls babel to convert jsx in React source to plain js
   module: {
     rules: [  // here's the first rule in the array of rules
-      
-      { // jan 2025 typescript added. START of the babel rule
-        test: /\.(js|jsx|ts|tsx)$/,   // feed files *.js and *.js to babel. ref:https://webpack.js.org/configuration/module/#ruletest
+      { // START of the babel rule
+        test: /\.(js|jsx)$/,   // feed files *.js and *.js to babel. ref:https://webpack.js.org/configuration/module/#ruletest
         // not needed... include: [  path.resolve(__dirname, "src/zzz"), path.resolve(__dirname, "src/abc") ],
         exclude: /node_modules/, // dont send these hundreds of files to babel! Client will download these itself upon "npm i"
         use: {  // ref: https://webpack.js.org/configuration/module/#ruleuse
-            loader: 'babel-loader', // node_modules/babel-loader/lib runs something here ...?
-            // NOTE: options can be left out but you need a .babelrc with same presets.
-            //       If you leave out both things, get fail without a description of whats wrong
-            // 1/2024 added @babel/preset-typescript for typescript and ts under test
-            options: { 
-              "presets": ["@babel/preset-typescript", "@babel/preset-env", "@babel/preset-react"]
-              // for "optionalChainingAssign" error, but not needed. See comment in source ,"plugins": [ "@babel/plugin-proposal-optional-chaining" ]
-            }
+          loader: 'babel-loader', // node_modules/babel-loader/lib runs something here ...?
+          // NOTE: options can be left out but you need a .babelrc with same presets.
+          //       If you leave out both things, get fail without a description of whats wrong
+          options: { "presets": ["@babel/preset-env", "@babel/preset-react"] }
         }, 
-      }, // END of the babel rule
-      
-      // { // START of the babel rule
-      //   test: /\.(js|jsx)$/,   // feed files *.js and *.js to babel. ref:https://webpack.js.org/configuration/module/#ruletest
-      //   // not needed... include: [  path.resolve(__dirname, "src/zzz"), path.resolve(__dirname, "src/abc") ],
-      //   exclude: /node_modules/, // dont send these hundreds of files to babel! Client will download these itself upon "npm i"
-      //   use: {  // ref: https://webpack.js.org/configuration/module/#ruleuse
-      //     loader: 'babel-loader', // node_modules/babel-loader/lib runs something here ...?
-      //     // NOTE: options can be left out but you need a .babelrc with same presets.
-      //     //       If you leave out both things, get fail without a description of whats wrong
-      //     options: { "presets": ["@babel/preset-env", "@babel/preset-react"] }
-      //   }, 
-      // }, // END of babel rule
+      }, // END of babel rule
 
       {  // this rule includes .css files
         test: /\.css$/,

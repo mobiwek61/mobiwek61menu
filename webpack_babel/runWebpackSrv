@@ -1,4 +1,11 @@
 #!/bin/bash
 
+# file ./webpack.config_devServer.js has this line:
+# entry: ['./webpackServerDevApp/forDevBundle/startReactInDiv.js', '../src/PackageTreeEntry.js'],
+# It tells the webpack dev server to make a virtual package. It runs the 
+# top level (code not in a function) in startReactInDiv.js which starts
+# up the React app. 
+# Any changes made anywhere get eaten as soon as they are saved
+
 
 node ../node_modules/webpack/bin/webpack serve -c ./webpack.config_devServer.js

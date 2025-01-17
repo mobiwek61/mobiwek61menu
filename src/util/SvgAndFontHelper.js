@@ -2,7 +2,7 @@ import React from 'react';
 import { BsQuestionCircle as QuestionIcon } from "react-icons/bs";
 import { FaBars as HamburgerIcon } from "react-icons/fa";
 // import { faCircleInfo as InfoCircle } from "react-icons/fa";
-import { BsInfoCircle as InfoCircle } from "react-icons/bs";
+import { BsInfoCircle } from "react-icons/bs";
 // import Ajv from "ajv"; // JSON schema
 
 /**
@@ -14,10 +14,7 @@ import { BsInfoCircle as InfoCircle } from "react-icons/bs";
  */
 function GlowingInfo(props) {
   return(
-    <div style={{ display:'inline-grid', margin:'5px', zIndex:'22',
-                  height:'fit-content', width:'fit-content',
-                  // below lines align it with bottom of parent
-                  position:'absolute', bottom:'0px' }}> 
+      <div id='GlowingInfo' style={{display:'inline-grid'}} >
       {/* below is box under hamburger to give the glowingCloud effect. Got right size by
         looking as debug-source of hamburger, using its viewbox etc */}
       <svg id='SolidBoxUnderInfo' 
@@ -32,9 +29,9 @@ function GlowingInfo(props) {
                     //fill='#cccccc' 
                     />
       </svg>
-      <InfoCircle // this sits on top of glowing backdrop
+      <BsInfoCircle // this sits on top of glowing backdrop
             style={{fontSize:props.fontSize, zIndex:'22', color:'#000000' }}
-            onClick={props.onClick} />
+            />
     </div>)
 }
 // does not work in jsx...  filter:"dropShadow(#7ad786e8 5px 5px 5px) dropShadow(#7ad786e8 -5px -5px 5px)"

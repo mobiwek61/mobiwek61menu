@@ -1,20 +1,27 @@
 
 /*
-  This is the javascript file which goes into file webpack.config.js
-  in entry /module.exports/entry: '../src/PackageTreeEntry.js'
-  
+  This is the javascript file which goes into file webpack.config.js:
+  entry: '../src/PackageTreeEntry.tsx',
+
   Entry means 2 things:
     1. "start dependency graph at this file" to build bundle.js
     2. when index.html has this: <script src="/bundle_localdev.js" type="text/javascript"></script>
        the bundle's exports get available via the DOM window object (see example index.html in webpack projects)
     2a. when script is called, every non-function javascript code in any file in the bundle gets run.
        Typically there is code to start React.js ie: ReactDOM.createRoot( ...
+
+   Typescript:
+     This file began as javascript. Later I used a typescript file for
+     something and needed to export a typescript "interface". In order to
+     get this file to pass through the export, it had to be converted
+     to typescript also. See exports section. 
 */
 
-  import { PopupDebugShowsQRandCmdLine } from './util/PopupDebugShowsQRandCmdLine'
+  import { Popup_descrip_qr_scrollTips } from './util/Popup_descrip_qr_scrollTips'
   import { findJsonObjectByFullPath, findJsonObjectByKeyNameAndValue, validateMwMenu } from './mobiwekMenu/mobiwekUtils'
-  // import './mobiwekMenu/mobiwekMenu.css'
-  import { MediaPictureWithInfo } from './mobiwekView/MediaPictureWithInfo'
+  // NOTE THAT TYPESCRIPT IMPORT MUST END WITH TS OR TSX. ANY TYPESCRIPT HAVING
+  // JSX IN IT MUST HAVE A TSX SUFFIX
+  import { MediaPictureWithInfo, PopupProps, favoriteCheese } from './mobiwekView/MediaPictureWithInfo.tsx'
   import { MobiWekMenuFrame } from './mobiwekMenu/mobiwekMenuFrameHelper';
   import { MobiWekPageWrapper } from "./mobiwekView/MobiWekPageWrapper"
 
@@ -38,10 +45,17 @@ console.log('running code at PackageTreeEntry.js Oct 2 to npmjs')
 
 // NOTE: it only wants to return values as JSON, not a simple string when used as an export
 function sayHi() {
-   return({ msg:'sayHi() from PackageTreeEntry.js in the bundle'
+   return({ msg:'...sayHi() from PackageTreeEntry.js in the bundle'
 }) }
 
 // export { sayHi, MobiWekDemo, PopupDebugShowsQRandCmdLine, findJsonObjectByFullPath, findJsonObjectByKeyNameAndValue, 
 //     validateMwMenu, MediaPictureWithInfo,  MobiWekMenuFrame, MobiWekPageWrapper }
-export { sayHi, PopupDebugShowsQRandCmdLine, findJsonObjectByFullPath, findJsonObjectByKeyNameAndValue, 
-   validateMwMenu, MediaPictureWithInfo,  MobiWekMenuFrame, MobiWekPageWrapper }
+
+// TODO: webpack.config_build.js gives warning:
+// export 'PopupProps'  (reexported as 'PopupProps') was not found in './mobiwekView/MediaPictureWithInfo.tsx' (possible exports: MediaPictureWithInfo, favoriteCheese)
+
+export { sayHi, Popup_descrip_qr_scrollTips, findJsonObjectByFullPath, findJsonObjectByKeyNameAndValue, 
+   validateMwMenu, MediaPictureWithInfo, favoriteCheese,  MobiWekMenuFrame, MobiWekPageWrapper }
+// this is a typescript thing. It specifies a set of parameters passed
+// to a function by the mobiwek framework.
+export type { PopupProps }  

@@ -1,4 +1,4 @@
-
+11/14/2024 
 ### Summary of how to do github on a pc or 'nix: 
 - These are the author's personal notes to describe the **automagic** authentication features used between the browser and github desktop. **This is an attempt** to describe how they work and may be **totally incorrect**.    
 - Github desktop **(gtd)** is downloaded from github and I use it on a PC.  
@@ -21,7 +21,34 @@ File->options->Accounts->"sign into github.com"
 It starts your browser with signin page. Somehow the browser manages signin.  
 You put in user/password, then it asks for the 2fa code you get from the android app.  
 The webpage asks if you want to authorize "github desktop".  Say yes.  
-Github desktop then appears showing your repos.
+Github desktop then appears showing your repos. 
+### Setup user ID in Github Desktop
+- This determines what the github page displays as the **contributor who committed** to the repo, in the history listing.   
+It is **not a github account**. It is a name which stays on the particular computer, so use names like "dellLaptopA", "desktop1", "worklaptopA"...   
+This name is the **same across all repositories**, so **dont use a github user**.  
+- Setup contributor name by: 
+```File->Options->Git``` and set the **name**. Then set the **email**.  
+ **Email name must match name** ie:  
+  "desktop1@yourdomain.com" with user "desktop1". Nonexistent email is used but works ok.  
+  If names don't match, a weird contributor name shows in the github page (I cant figure out where it came from)   
+- This can be done by git-bash also. This way you can set different contributor names for each repository, with different owners.   
+To do this omit --global flag and use command in top folder where the ```.git``` folder lives.   
+Command modifies file ```<project root>/.git/config``` and adds user/email info  with entries under ```[user]```.  The --global flag makes it modify (windows) ```C:\Users\userABC\.gitconfig```. This file also gets modified when Github Desktop is used as above to set name. 
+
+  ```
+  # https://docs.github.com/en/get-started/getting-started-with-git/setting-your-username-in-git
+  # Git uses a username to associate commits with an identity. The Git username is not the same as your GitHub username
+  git config --global user.name "laptop17c"
+  # for github desktop commit to use proper user.name, the email
+  # address must have the same name, but domain doesnt matter
+  git config --global user.email "laptop17c@yourdomain.com
+  ```
+
+### You try to push in Github Desktop and is says "REPOSITORY NO LONGER EXISTS"   
+This happens when you login with more than one github account and GTD is **logged in**
+as that **other user**.   
+**Fix**: go to FILE->OPTIONS->ACCOUNT and login as the other user owning the
+repo you are trying to push to**
 ### Now open another "user in github desktop" to see how multiple users are handled.  
 - You need to login the other github user: on github webpage click on the user icon,  
 **then click on the left/right arrow thing** which means **switch user**.  Then login, it will do
