@@ -1,5 +1,4 @@
-# mobiwek61menu  
-1/17/2025 popup as json param, iPhone infobutton bug fixed  
+# mobiwek61menu
 *mobi is "mobile", wek61 is "weka" with the "a" shown as hexadecimal. The awkward name is to eliminate possible name clashes with other entities.*
 
 ## Overview of mobiwek61menu    
@@ -7,9 +6,25 @@ This project is a coding exercise/experiment for the author to learn about React
 
 - If you publish code derived from this, I ask that you **leave the existing documentation in place** for my benefit, and even better, document your work so I can see wha't going on.
 - If you remove the font +/- buttons, I won't be able to see the results of your work on a mobile, so I ask you leave or improve on them.    
-## Warning about React and nodejs
-- When running a node/React app directly or from webpack **there must be only one node_modules in the run folder hierarchy**. If more than one node_modules is present ie: run folder and 2 levels up, React fails with a error message, typically something about ***useEffect not allowed***.   
-## Summary
+## React.js common errors  
+*React.js errors sometimes produce runtime crashes with misleading error messages which can stop a project dead.*
+- ### Import statement syntax 
+    - Use this syntax ***EXACTLY***: &nbsp;```import React, { useEffect, useState } from 'react';```  
+    If other things needed from react, put them inside curly brackets.   
+  - Wrong ```import``` syntax fails to import file.
+    - For .js files to import use NO SUFFIX: ```import {Popup_custom} from './Popup_custom'```  
+    - For .tsx files to import DO USE SUFFIX: &nbsp;&nbsp;&nbsp;&nbsp;```import { Popup_custom } from "./Popup_custom.tsx"```  
+  - **DO USE** curly brackets as shown above. 
+  - example misleading error message:  
+    *"Warning: React.createElement: type is invalid -- expected a string (for built-in components) or a class/function..."*
+- ### More than one node_modules containing React.js  
+  When running a node/React app using ```npm start``` or from webpack,  
+   <u>**there must be only one node_modules in the run folder hierarchy**.</u>   
+   If more than one node_modules is present ie: run folder and 2 levels up, React fails with a misleading error message, typically something about ***useEffect not allowed***.  
+   The reason is that the runtime sees more than one React.js install and gets panicky about it.  
+
+
+## Project Summary
 - menu maintains related/unrelated topics in a hierarchy with multi-level display, with auto-centering needed by small mobile screens.
 - the state of the menu perists between chosen routes ('links'), to preserve position in the hierarchy. A "home" button is provided. Elements not in current hierarchy are hidden.
 - if the hierarchy tree has many levels, the menu can be very wide/tall. It is touch scrollable to the screen viewport and auto-scrolls to the chosen position. This is significant on mobile devices. The font +/- buttons provide visual aid for those who need it.  It also provides a zoom function to see position in the tree.
@@ -20,6 +35,28 @@ This project is a coding exercise/experiment for the author to learn about React
   - all nodes have a "mwmkey" attribute. When a leaf is clicked on, its mwmkey and those if its ancestors and used to form a REST-style request sent to useLocation()
 - above clicked-LEAF requests get sent to React **BrowserRouter** in MobiWekDemo.js in REST-style. The full path of the request [which matches the menu hierarchy] is examined and matched with the matching node in the JSON menu structure (above). The attributes of this determine which component handles the request and how it behaves.
   - example: node has an **imgurl** attribute, so it's sent to the **MediaPicture(mwmkeyLeaf)** component where its displayed with zoom/pan and an info button in the lower left corner
+- **query techniques used here**     
+*Makes use of 2 unrelated types of queries:* 
+  - DOM (Document Object Model) queries for querying HTML  
+    ```
+    document.querySelectorAll('[mobiwekrole="BRANCH_SUBMENU"]')
+         .forEach(submenu => { ......
+    ```    
+  - JSONPATH queries for querying JSON objects  
+    ```
+    var jsonPath = require('jsonpath');
+    var jsonPathQueryString = "$..*[?(@.LEAF)]"  // searches for LEAF's  
+    var matchA = jsonPath.query(jsonObjectHead, jsonPathQueryString);
+    ```
+  - JSONPATH example annotated:  
+    ```
+    jsonPathQuery = "$..*[?(@.mwmkey=='winslowHomerFogWarning')]"
+    //               ^ $ is root of tree
+    //                ^^ 2 dots is "Recursive descent" drill-down operator
+    //                  ^ wildcard * "anything within the tree having next thing"
+    //      the "filter" ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
+    ```
+    
 
 ### STRUCTURE OF THIS PROJECT
 - **Overview**
@@ -50,6 +87,7 @@ IN JAVASCRIPT (requires HTML script tag loading javascript file)
 ### TODO
 - convert code in client example to use next.js and typescript. maybe. 
 - modify runWebpackSrv script to check for duplicate node_modules in hierarchy
+
 ### BUG
 - on desktop with mouse, cannot use mouse to drag menu when it is larger than the screen. Works ok on laptop trackpad and android. There's probably one line of css fixing this but I haven't found it. Put in some test code src\mobiwekMenu\mobiwekMenuBuilder.js, line 126. 
 ### VSCode displays only one edit file tab at a time. To Fix:  

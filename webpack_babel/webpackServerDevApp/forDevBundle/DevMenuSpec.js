@@ -67,7 +67,8 @@ const samplePersonImg = <img src='/jpeg/samplePerson.jpg'
           width:'clamp(2px, 25vw, 130px)',
           verticalAlign:'middle', pointerEvents:'none' }} alt='xyz' />
 const ncc1701 = <img src='/jpeg/enterpriseInProfile.jpg' 
-          style={{ width:'clamp(2px, 25vw, 130px)', verticalAlign:'middle', pointerEvents:'none' }} alt='xyz' />
+          style={{ width:'clamp(2px, 25vw, 130px)', verticalAlign:'middle', 
+          pointerEvents:'none' }} alt='xyz' />
 
 // margin: calc(5px + 20px) or   calc(0vw + 10vw)  is ok
 

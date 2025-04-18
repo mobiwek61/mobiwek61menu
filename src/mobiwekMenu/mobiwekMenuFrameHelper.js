@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { DoHtml5AnimateSlide } from './Html5AnimationHelper';
-import { MobiWekAutoXYScrollMenuComponent } from './mobiwekMenuBuilder'
+import { MobiWekAutoXYScrollMenuComponent } from './mobiwekMenuBuilder.jsx'
 import { scrollVandHToShowChosenSubmenu } from './mobiwekMenuBuilderHelper'
 import './mobiwekMenu.css'
 import { useNavigate, Outlet } from "react-router-dom";
@@ -65,8 +65,10 @@ function MobiWekMenuFrame(propsMenuFrame) {
                     "parent" components above */
                 sideSlidePayload={ makeMobiWekAutoXYScrollMenuComponent }
                 /* tells menu to scroll to current choice when menu comes up */
-                onPayloadVisible={ () => { scrollVandHToShowChosenSubmenu(
-                      document.querySelector('[mwmCurrent="mwmchosen"'), 0)} }  
+                onPayloadVisible={ () => { 
+                  var currentlyChosenMenuItem = 
+                        document.querySelector('[mwmCurrent="mwmchosen"')
+                  scrollVandHToShowChosenSubmenu(currentlyChosenMenuItem, 0)} }  
               />
           </div>
           {/* below is page content to be displayed. Some pages get the zoom/pan wrapper and some

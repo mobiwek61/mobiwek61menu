@@ -10,6 +10,7 @@ interface PopupProps {
    domImgObj?: object;
    isVisible?: boolean;
    txtdesc?: string;
+   addlPars?: object;
    callBackCloseMe?: (value: boolean) => void;
    somethingElse?: string;
 }
@@ -20,6 +21,7 @@ var foo:PopupProps = {}; foo.somethingElse = '.this is foo PopupProps'; console.
  * @returns 
  */
 // this works also -> function MediaPictureWithInfo(mwmkeyLeaf, imageDescPopup) {
+// before conversion from propsQ from 4 params to unlimited using ... spread operator april 2025
 function MediaPictureWithInfo(propsQ) {
       const preloadImage = new Image();
       console.log('MediaPictureWithInfo with imageDescPopup optional param 4')
@@ -28,17 +30,17 @@ function MediaPictureWithInfo(propsQ) {
       const screenScalerFactor = parseInt(getComputedStyle(document.body).getPropertyValue('--mwmMenuScrnScaler')) 
       /**
           * Calculates image dimensions according to these values of **mwmtype** :
-          *   - handwriting always takes full screen width, flush to top
-          *   - image takes full width if wider proportion than screen, else full height.
-          * @param {*} (object) imgWH original IMAGE width/height structure
-          * @param {*} winWH same for window
-          * @param {*} winHeight window dimension
-          * @param {*} mwmtype 'handwriting', 'image' ....
-          * @returns structure having new image width, height and minimum zoom (may be < 0)
+          *   - 
+          * @param {*} imgWH original IMAGE width/height structure
+          * @param {*} winWH original WINDOW width/height structure
+          * @param {*} mwmtype determines how image gets scaled  
+          *      - 'handwriting' always takes full screen width, flush to top, so its easy to read something like a newspaper etc full width.
+          *      - anything else scaled so its full width or height will fit in window.
+          * @returns structure having new image width, height and minimum zoom so that zooming down wont give a postage stamp.
           */
          const fitToWidthHeight = (imgWH, winWH, mwmtype) => {
             // JSDoc uses below declaration to generate docs. Adding elements dynamically makes it weird out.
-            var dims = { zoomDownForAllFit:1, width:-1, height:-1, doesImageTakeFullWidth:null }; 
+            var dims = { zoomDownForAllFit:1, width:-1, height:-1, doesImageTakeFullWidth:false }; 
             //dims.height = winWH.height/2
             //return dims;
             // SAVE as example..looks absolutely useless...     let { width } = winWH; console.log('"destructured object": ' + width)
@@ -71,7 +73,8 @@ function MediaPictureWithInfo(propsQ) {
               }} >
             <CreateRZPPimageWithPreloadStandIn 
                preload={preloadImage} imgSrcUrl={propsQ.mwmkeyLeaf.imgurl} mwmkeyLeaf={propsQ.mwmkeyLeaf}
-               mwmtype={propsQ.mwmkeyLeaf.mwmtype} imageDescPopup={propsQ.imageDescPopup} /> 
+               mwmtype={propsQ.mwmkeyLeaf.mwmtype} imageDescPopup={propsQ.imageDescPopup}
+               addlPars={propsQ.addlPars} /> 
             {/* for putting message on mobile screen for debug. comment out... */}
             {/* SAVE...  <div id='debugMsgMobile' style={{ position:'absolute', top:'90px', backgroundColor:'#ffffbb',  
             height:'max-content', fontSize:'22px', zIndex:200, color:'black'}} /> */}
@@ -111,6 +114,7 @@ function MediaPictureWithInfo(propsQ) {
       const [isInfoPopupOpen, setIsInfoPopupOpen] = useState(false);
       if (dvprops.theImgObject == null) return(<></>) // image not loaded yet so show nothing
       else {
+         console.log((dvprops.imageDescPopup) ? 'custom popup': 'default popup')
          var ThePopup: React.FC<PopupProps> = dvprops.imageDescPopup ? dvprops.imageDescPopup : Popup_descrip_qr_scrollTips 
       //   var thePopup = <>hello from thepopup</>
       //   thePopup = PupA ( /* this popup shows description of image, qr and scroll tips */
@@ -150,7 +154,8 @@ function MediaPictureWithInfo(propsQ) {
          <ThePopup 
             domImgObj={ dvprops.theImgObject } // the DOM image object from state() passed as a prop
             txtdesc={ dvprops.mwmkeyLeaf.txtdesc }
-            isVisible={ isInfoPopupOpen } 
+            isVisible={ isInfoPopupOpen }
+            addlPars={dvprops.addlPars} 
             callBackCloseMe={(isOpen)=> { setIsInfoPopupOpen(isOpen) } } />
          {/* { thePopup } */}
          {/* <Popup_descrip_qr_scrollTips 
@@ -245,7 +250,7 @@ function MediaPictureWithInfo(propsQ) {
                    {/* below component refreshes when theImgObject changes. 
                        On initial refresh its null, so shows nothing */}
                    <ImgDivWithInfoBtn theImgObject={theImgObj_state} mwmkeyLeaf={props.mwmkeyLeaf}
-                                      imageDescPopup={props.imageDescPopup}/>
+                                      imageDescPopup={props.imageDescPopup} addlPars={props.addlPars}/>
                    {/* <img src='/jpeg/hist/aerospace/X-15_flying.jpg' /> */}
                  </>
       }

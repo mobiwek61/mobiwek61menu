@@ -120,7 +120,6 @@ import { React, Fragment } from 'react';
    *  and summing widths and heights of nodes along the way  */
   function scrollVandHToShowChosenSubmenu(chosenDomNode, extraWidth) {
       if (chosenDomNode === null) return;
-      console.log("scrollVandHToShowChosenSubmenu")
       var runner = chosenDomNode;
       var XscrollTotal = runner.clientWidth + extraWidth; // include the leaf node width to start with
       var YscrollTotal = 0; // if not initialized get NaN like the tv show
@@ -129,6 +128,7 @@ import { React, Fragment } from 'react';
       
       // CALCULATE X OFFSET FOR SCROLLING 
       do {
+          // if (runner.attributes.mobiwekrole && runner.attributes.mobiwekrole.textContent === 'BRANCH') // only BRANCH pushes node to the right
           if (runner.attributes.mobiwekrole.textContent === 'BRANCH') // only BRANCH pushes node to the right
               XscrollTotal += runner.clientWidth; 
           runner = runner.parentElement
@@ -169,7 +169,8 @@ import { React, Fragment } from 'react';
       if (!runner.previousSibling) {
           // we are at top leaf in a submenu or menu. 
           var parentSubMenu = runner.parentNode
-          if (parentSubMenu === menuHeadNode) return Ysum // at very top, break out now.
+          if (parentSubMenu === menuHeadNode) 
+              return Ysum // at very top, break out now.
           // console.log('BRANCH_BUTTON text: ' + parentSubMenu.previousSibling.textContent)
           // recurse up to parent menu
           return addHeightsRecurse(parentSubMenu.parentNode, Ysum + runner.clientHeight, menuHeadNode)
@@ -222,8 +223,11 @@ import { React, Fragment } from 'react';
                 if (I_am_visible_now) {   //  branch was just opened
                     targetSubmenu.setAttribute('latestClickedSubMenu', "thatsMe")
                     ref_unHighLightMeNextClick.current = targetSubmenu;
-                    // scrollVandHToShowChosenSubmenu(targetSubmenu.parentNode, 0)
-                    scrollVandHToShowChosenSubmenu(targetSubmenu, 0)
+                    // alert: to fix vertical scroll when branch below bottom clicked
+                    /* see Commit (which broke it) 1533c45 on Oct 31, 2024 */
+                    scrollVandHToShowChosenSubmenu(targetSubmenu.parentNode, 0)
+                    // below without .parentNode BREAKS when branch below bottom clicked
+                    // scrollVandHToShowChosenSubmenu(targetSubmenu, 0)
                 } else {   // branch was just closed
                     // whoops! this removes the node ... targetSubmenu.remove('latestClickedSubMenu', "pizza")
                     // does nothing..   delete targetSubmenu.latestClickedSubMenu;
@@ -236,7 +240,9 @@ import { React, Fragment } from 'react';
                         subElem.classList.remove('dispBlockClass'); 
                         subElem.classList.remove('leafDummyClass') 
                     }); 
-                    scrollVandHToShowChosenSubmenu(branchButtonEvent.target.parentNode, -branchButtonEvent.target.clientWidth)
+                    // scrollVandHToShowChosenSubmenu(branchButtonEvent.target.parentNode, -branchButtonEvent.target.clientWidth)
+                    // alert: removing parentNode may introduce a bug?? Removed to simplify code..
+                    scrollVandHToShowChosenSubmenu(branchButtonEvent.target, -branchButtonEvent.target.clientWidth)
                 }
                 ancestorsToSolidArrow(oneBranch)  
               });

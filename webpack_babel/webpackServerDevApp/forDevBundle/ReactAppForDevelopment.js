@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, Outlet, useParams,  useNavigate, useLocation } from "react-router-dom";
 import { mobiwekMenuJSONexample_1 } from  "./DevMenuSpec";
-// import { Popup_custom } from "./Popup_custom.tsx"
+
 import devProjCSS from './devProject.module.css'
+// import { Popup_custom } from "./Popup_custom.tsx" // !!! include .tsx !!!!
+import {Popup_custom} from './Popup_custom' // !!! DONT include .js !!!!
 
 /**  Ignore this if you are using the package but not developing it (such as importing it).
  *   This is the development version and imports are done via the filesystem and not via a bundle.
@@ -43,7 +45,6 @@ function ReactAppForDevelopment() {
   // get "css variable" from css file using getComputedStyle().  
   var cssVariableFromCSSfile_fontsizeA = 
         getComputedStyle(document.body).getPropertyValue('--fontSizeA')
-  console.log('zz')
   {/* the code below has parts which looks like HTML is actually JSX. One big difference is when css
       style is specified, things like margin-bottom become marginBottom and the value
       appears in quotes. Also note the double brackets around css. */}
@@ -144,6 +145,7 @@ function ReactAppForDevelopment() {
     <Route path='x15/:itemKey' 
         element={ <Aircraft/>}  
     />
+    {/* if no sub-route matches this gets skipped, as in lincoln photo */}
     <Route path='amhistory' element={<Outlet/>} >
         {/* REST-style: any route staring with amhistory/aircraft/experimental/ */}
         <Route path='aircraft/:itemKey' element={ <Aircraft/> }  />
@@ -276,9 +278,7 @@ function ReactAppForDevelopment() {
         // works ok without JSX style ->    return MediaPictureWithInfo(mwmkeyLeaf, ClientPupA) 
         //return <MediaPictureWithInfo comment='imageDescPopup param missing' mwmkeyLeaf={mwmkeyLeaf} />
         //return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf} imageDescPopup={TestClientPupA} />
-        return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf}  
-                //imageDescPopup={Popup_custom} 
-              />
+        return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf} />
       }
       // get here only if there is a problem
       return (<>ExperimentalAircraft no handler found</>)
@@ -367,9 +367,14 @@ function ReactAppForDevelopment() {
       }
       
       if (mwmkeyLeaf.imgurl !== undefined) 
-        // works also ->     return MediaPictureWithInfo(mwmkeyLeaf, ClientPupA)
-        return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf}  
-                                     usedefault-imageDescPopup={'zzzz'}/>
+        return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf} />
+        /* SAVE THIS CODE! It's an example of using a custom popup to describe an image!*/
+        /* return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf}  
+                  imageDescPopup={Popup_custom} 
+                  // addlPars passes a custom set of params to the custom popup
+                  addlPars={{drink:'coffee', flavor:'orange'}} />
+        */
+        
       // if not just show a message
       // following shows how JSX mixes variables with markuup and styles. A bit weird looking.
       const redHi = { background:'#ff00001f', overflowWrap: 'anywhere' }
@@ -379,6 +384,10 @@ function ReactAppForDevelopment() {
           <br/><code>function HandleByFullPathToFindMenuEntry(). </code><br/> fullUrlPath: { fullUrlPath } 
           <br/>mwmkey: {mwmkeyLeaf.mwmkey}<br/> 
         </div>)
+    }
+
+    function TestPopup() {
+      return <>this is testpopup</>
     }
 
     function TodaysSoup() {

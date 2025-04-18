@@ -49,7 +49,7 @@ function ReactAppForDevelopment() {
   // get "css variable" from css file using getComputedStyle().  
   var cssVariableFromCSSfile_fontsizeA = 
         getComputedStyle(document.body).getPropertyValue('--fontSizeA')
-  // console.log('getComputedStyle fontSizeA ' + cssVariableFromCSSfile_fontsizeA)
+  console.log('getComputedStyle fontSizeA ' + cssVariableFromCSSfile_fontsizeA)
   return (
     <BrowserRouter>
       <Routes>

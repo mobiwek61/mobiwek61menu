@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, Outlet, useParams,  useNavigate, useLocation } from "react-router-dom";
 import { mobiwekMenuJSONexample_1 } from  "./DevMenuSpec";
 import devProjCSS from './devProject.module.css'
+// import { Popup_custom } from "./Popup_custom.tsx" // !!! include .tsx !!!!
+import {Popup_custom} from './Popup_custom' // !!! DONT include .js !!!!
 
 import { findJsonObjectByFullPath, validateMwMenu,
     MediaPictureWithInfo,  MobiWekMenuFrame, MobiWekPageWrapper } 
@@ -218,9 +220,13 @@ function ReactAppForDevelopment() {
       }
       
       if (mwmkeyLeaf.imgurl !== undefined) 
-        return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf}  
-          //imageDescPopup={Popup_custom} 
-        />
+        return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf}  />
+        /* SAVE THIS CODE! It's an example of using a custom popup to describe an image!*/
+        // return <MediaPictureWithInfo mwmkeyLeaf={mwmkeyLeaf}  
+        //             imageDescPopup={Popup_custom} 
+        //             // addlPars passes a custom set of params to the custom popup
+        //             addlPars={{drink:'coffee', flavor:'bitter'}} />
+      
       // if not just show a message
       // following shows how JSX mixes variables with markuup and styles. A bit weird looking.
       const redHi = { background:'#ff00001f', overflowWrap: 'anywhere' }

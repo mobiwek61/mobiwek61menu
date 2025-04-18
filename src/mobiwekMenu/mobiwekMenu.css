@@ -37,7 +37,7 @@
     /* FOR MOBILE THIS SETS THE INITIAL FONT SIZE IF NO FONT IS IN THE URL PATH */
     /* FOR MOBILE THIS SETS THE INITIAL FONT SIZE IF NO FONT IS IN THE URL PATH */
     /* FOR MOBILE THIS SETS THE INITIAL FONT SIZE IF NO FONT IS IN THE URL PATH */
-    --mwmScalerMobile:1.0;
+    --mwmScalerMobile:0.7;
     --mwmMenuFontSize:-1; /* NEVER EDIT *//* set by code when user selects font size + or - , and mwmfont in url */
     --mwmScaledRadius:-1px; /* NEVER EDIT *//* radius based on mobile or desktop etc. Calculated in code.. */
     --mwmMenuScrnScaler:-1; /* NEVER EDIT *//* scaling factor for screensize is setup in code */
