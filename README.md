@@ -1,4 +1,11 @@
 # mobiwek61menu
+
+4/17/2025 this version:
+- takes a popup component as a parameter to src\mobiwekView\MediaPictureWithInfo.tsx. This component takes a new added parameter which is an Object with non-fixed names addlPars={{drink:'coffee', flavor:'orange'}}  
+- documentation improved
+
+-------------
+
 *mobi is "mobile", wek61 is "weka" with the "a" shown as hexadecimal. The awkward name is to eliminate possible name clashes with other entities.*
 
 ## Overview of mobiwek61menu    
@@ -56,7 +63,9 @@ This project is a coding exercise/experiment for the author to learn about React
     //                  ^ wildcard * "anything within the tree having next thing"
     //      the "filter" ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
     ```
-    
+  - Microsoft copilot is very useful for explaining queries. Tell it:  
+    ```explain this jsonpath query: $..*[?(@.mwmkey=='winslowHomerFogWarning')]```  
+    Then you can ask it to elaborate details. Eventually it includes the details you asked for in the first place next time you ask about a query.  
 
 ### STRUCTURE OF THIS PROJECT
 - **Overview**
