@@ -64,7 +64,9 @@ This project is a coding exercise/experiment for the author to learn about React
     //      the "filter" ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
     ```
   - Microsoft copilot is very useful for explaining queries. Tell it:  
-    ```explain this jsonpath query: $..*[?(@.mwmkey=='winslowHomerFogWarning')]```  
+    ```
+    explain this jsonpath query: $..*[?(@.mwmkey=='winslowHomerFogWarning')]
+    ```  
     Then you can ask it to elaborate details. Eventually it includes the details you asked for in the first place next time you ask about a query.  
 
 ### STRUCTURE OF THIS PROJECT
